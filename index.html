@@ -56,7 +56,7 @@
       width: auto;
       max-width: none;
       margin: 0;
-      padding: 18px 66px 48px 16px;
+      padding: 16px 58px 42px 14px;
       box-sizing: border-box;
       outline: none;
       word-wrap: break-word;
@@ -103,10 +103,10 @@
 
     #toolbar {
       position: absolute;
-      top: 12px;
-      right: 10px;
+      top: 10px;
+      right: 8px;
       z-index: 30;
-      width: 36px;
+      width: 32px;
     }
 
     .toolbtn {
@@ -114,7 +114,7 @@
       position: relative;
       width: 32px;
       height: 32px;
-      margin: 0 0 8px 0;
+      margin: 0 0 5px 0;
       padding: 0;
       border-radius: 16px;
       cursor: pointer;
@@ -143,24 +143,44 @@
 
     .formatbtn {
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 16px;
+      font-size: 15px;
+      font-weight: normal;
+    }
+
+    #boldBtn {
       font-weight: bold;
     }
 
     #italicBtn {
       font-style: italic;
+      font-weight: normal;
+    }
+
+    #underlineBtn {
+      font-weight: normal;
+      text-decoration: underline;
     }
 
     #themeBtn {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 22px;
-      font-weight: bold;
-      line-height: 30px;
+      line-height: normal;
+    }
+
+    #themeBtn .themeGlyph {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      margin-top: -10px;
+      display: block;
       text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: normal;
+      line-height: 20px;
     }
 
     #menuBtn {
-      font-size: 15px;
+      font-size: 14px;
       line-height: 28px;
     }
 
@@ -231,11 +251,11 @@
     #menuPanel {
       display: none;
       position: absolute;
-      top: 12px;
-      right: 52px;
+      top: 10px;
+      right: 42px;
       z-index: 29;
-      width: 156px;
-      padding: 8px;
+      width: 148px;
+      padding: 7px;
       border-radius: 12px;
       box-sizing: border-box;
       font-family: Arial, Helvetica, sans-serif;
@@ -254,7 +274,7 @@
     }
 
     .panelRow {
-      margin: 0 0 8px 0;
+      margin: 0 0 7px 0;
     }
 
     .panelLabel {
@@ -270,12 +290,12 @@
     .panelBtn {
       display: block;
       width: 100%;
-      height: 30px;
+      height: 29px;
       padding: 0 8px;
       border-radius: 8px;
       box-sizing: border-box;
       outline: none;
-      font-size: 12px;
+      font-size: 11px;
       -webkit-appearance: none;
       appearance: none;
       font-family: Arial, Helvetica, sans-serif;
@@ -299,39 +319,40 @@
       #toolbar {
         top: 8px;
         right: 8px;
-        width: 32px;
+        width: 30px;
       }
 
       .toolbtn {
         width: 30px;
         height: 30px;
+        margin-bottom: 4px;
         line-height: 28px;
-        margin-bottom: 6px;
       }
 
       .formatbtn {
-        font-size: 15px;
+        font-size: 14px;
       }
 
-      #themeBtn {
-        font-size: 21px;
-        line-height: 28px;
+      #themeBtn .themeGlyph {
+        margin-top: -9px;
+        font-size: 20px;
+        line-height: 18px;
       }
 
       #menuBtn {
-        font-size: 14px;
+        font-size: 13px;
         line-height: 27px;
       }
 
       #menuPanel {
         top: 8px;
-        right: 42px;
-        width: 140px;
+        right: 40px;
+        width: 138px;
         padding: 7px;
       }
 
       #editor {
-        padding: 14px 52px 42px 12px;
+        padding: 14px 50px 40px 12px;
         font-size: 15px;
         line-height: 1.46;
         max-width: none;
@@ -369,11 +390,11 @@
         font-size: 15px;
         line-height: 1.42;
         padding-top: 12px;
-        padding-bottom: 38px;
+        padding-bottom: 34px;
       }
 
       .toolbtn {
-        margin-bottom: 5px;
+        margin-bottom: 4px;
       }
     }
   </style>
@@ -388,7 +409,10 @@
       <button type="button" class="toolbtn formatbtn" id="boldBtn" title="Bold">B</button>
       <button type="button" class="toolbtn formatbtn" id="italicBtn" title="Italic">I</button>
       <button type="button" class="toolbtn formatbtn" id="underlineBtn" title="Underline">U</button>
-      <button type="button" class="toolbtn" id="themeBtn" title="Theme">*</button>
+
+      <button type="button" class="toolbtn" id="themeBtn" title="Theme">
+        <span class="themeGlyph">*</span>
+      </button>
 
       <button type="button" class="toolbtn cornerbtn" id="fullBtn" title="Full screen">
         <span class="tl"></span>
@@ -459,8 +483,8 @@
       var saveBtn = document.getElementById("saveBtn");
       var emailBtn = document.getElementById("emailBtn");
 
-      var contentKey = "n0tes_content_v6";
-      var prefsKey = "n0tes_prefs_v6";
+      var contentKey = "n0tes_content_v7";
+      var prefsKey = "n0tes_prefs_v7";
       var storageOK = false;
       var savedRange = null;
       var isDirty = false;
@@ -748,7 +772,7 @@
         parts.push("<style type=\"text/css\">");
         parts.push("html,body{margin:0;padding:0;background:" + bg + ";color:" + fg + ";}");
         parts.push("body{font-family:" + fontCss + ";-webkit-text-size-adjust:100%;text-size-adjust:100%;}");
-        parts.push("#note{width:auto;max-width:none;margin:0;padding:18px 16px 40px 16px;font-size:" + prefs.size + "px;line-height:1.52;word-wrap:break-word;white-space:normal;text-align:left;}");
+        parts.push("#note{width:auto;max-width:none;margin:0;padding:16px 14px 40px 14px;font-size:" + prefs.size + "px;line-height:1.52;word-wrap:break-word;white-space:normal;text-align:left;}");
         parts.push("#note p,#note div{margin:0 0 0.85em 0;}");
         parts.push("#note h1{margin:0 0 0.7em 0;font-size:1.5em;line-height:1.12;font-weight:bold;}");
         parts.push("#note h2{margin:0 0 0.8em 0;font-size:1.22em;line-height:1.18;font-weight:bold;}");
@@ -948,7 +972,7 @@
           if (isDirty) {
             storeContent();
           }
-        }, 4000);
+        }, 30000);
       }
 
       storageOK = testStorage();
