@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dark Writer</title>
+
+  <style type="text/css">
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #111111;
+      color: #f2f2f2;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    body {
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    #toolbar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 20;
+      background: #111111;
+    }
+
+    #toolbar button {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      margin: 0 6px 0 0;
+      padding: 0;
+      border: 1px solid #333333;
+      background: #111111;
+      color: #dddddd;
+      font-size: 16px;
+      line-height: 30px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    #toolbar button:active {
+      background: #1b1b1b;
+    }
+
+    #wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #editor {
+      min-height: 100%;
+      padding: 64px 24px 40px 24px;
+      font-size: 22px;
+      line-height: 1.7;
+      outline: none;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    #editor p,
+    #editor div {
+      margin: 0 0 1em 0;
+    }
+
+    #hint {
+      position: fixed;
+      right: 12px;
+      top: 14px;
+      z-index: 20;
+      font-size: 11px;
+      color: #666666;
+      font-family: Arial, sans-serif;
+    }
+
+    @media screen and (max-width: 640px) {
+      #toolbar {
+        top: 8px;
+        left: 8px;
+      }
+
+      #toolbar button {
+        width: 30px;
+        height: 30px;
+        margin-right: 4px;
+        font-size: 15px;
+        line-height: 28px;
+      }
+
+      #editor {
+        padding: 56px 16px 32px 16px;
+        font-size: 20px;
+        line-height: 1.6;
+      }
+
+      #hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="toolbar">
+    <button type="button" title="Bold"
+      onmousedown="return keepSelection(event);"
+      ontouchstart="return keepSelection(event);"
+      onclick="runCommand('bold');"><b>B</b></button>
+
+    <button type="button" title="Italic"
+      onmousedown="return keepSelection(event);"
+      ontouchstart="return keepSelection(event);"
+      onclick="runCommand('italic');"><i>I</i></button>
+
+    <button type="button" title="Underline"
+      onmousedown="return keepSelection(event);"
+      ontouchstart="return keepSelection(event);"
+      onclick="runCommand('underline');"><u>U</u></button>
+  </div>
+
+  <div id="hint">autosaves locally</div>
+
+  <div id="wrap">
+    <div id="editor" contenteditable="true"></div>
+  </div>
+
+  <script type="text/javascript">
+    (function () {
+      var editor = document.getElementById("editor");
+      var storageKey = "dark_writer_content";
+      var savedRange = null;
+      var storageOK = false;
+
+      function bind(el, eventName, handler) {
+        if (el.addEventListener) {
+          el.addEventListener(eventName, handler, false);
+        } else if (el.attachEvent) {
+          el.attachEvent("on" + eventName, handler);
+        } else {
+          el["on" + eventName] = handler;
+        }
+      }
+
+      function testStorage() {
+        try {
+          var x = "__dark_writer_test__";
+          window.localStorage.setItem(x, x);
+          window.localStorage.removeItem(x);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function saveSelectionRange() {
+        if (window.getSelection) {
+          var sel = window.getSelection();
+          if (sel.rangeCount > 0) {
+            savedRange = sel.getRangeAt(0);
+          }
+        } else if (document.selection) {
+          savedRange = document.selection.createRange();
+        }
+      }
+
+      function restoreSelectionRange() {
+        if (!savedRange) {
+          return;
+        }
+
+        if (window.getSelection) {
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(savedRange);
+        } else if (document.selection && savedRange.select) {
+          savedRange.select();
+        }
+      }
+
+      function storeContent() {
+        if (!storageOK) {
+          return;
+        }
+
+        try {
+          window.localStorage.setItem(storageKey, editor.innerHTML);
+        } catch (e) {}
+      }
+
+      function loadContent() {
+        if (!storageOK) {
+          return;
+        }
+
+        try {
+          var saved = window.localStorage.getItem(storageKey);
+          if (saved && saved !== "") {
+            editor.innerHTML = saved;
+          }
+        } catch (e) {}
+      }
+
+      function ensureStartContent() {
+        var html = editor.innerHTML;
+        if (!html || html.replace(/[\s\u00A0]/g, "").replace(/<br>/gi, "") === "") {
+          editor.innerHTML = "<div><br></div>";
+        }
+      }
+
+      window.keepSelection = function (e) {
+        e = e || window.event;
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        e.returnValue = false;
+        return false;
+      };
+
+      window.runCommand = function (command) {
+        editor.focus();
+        restoreSelectionRange();
+
+        try {
+          document.execCommand("styleWithCSS", false, false);
+        } catch (e) {}
+
+        try {
+          document.execCommand(command, false, null);
+        } catch (e) {}
+
+        saveSelectionRange();
+        storeContent();
+      };
+
+      storageOK = testStorage();
+      loadContent();
+      ensureStartContent();
+
+      bind(editor, "keyup", function () {
+        saveSelectionRange();
+        storeContent();
+      });
+
+      bind(editor, "mouseup", function () {
+        saveSelectionRange();
+      });
+
+      bind(editor, "touchend", function () {
+        saveSelectionRange();
+      });
+
+      bind(editor, "focus", function () {
+        saveSelectionRange();
+      });
+
+      bind(editor, "input", function () {
+        saveSelectionRange();
+        storeContent();
+      });
+
+      bind(editor, "paste", function () {
+        setTimeout(function () {
+          saveSelectionRange();
+          storeContent();
+        }, 0);
+      });
+
+      bind(window, "beforeunload", function () {
+        storeContent();
+      });
+
+      editor.focus();
+    })();
+  </script>
+</body>
+</html>
