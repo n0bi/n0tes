@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Dark Writer</title>
 
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:400|PT+Serif:400|Open+Sans:400">
+
   <style type="text/css">
     html, body {
       margin: 0;
@@ -12,47 +14,69 @@
       height: 100%;
       background: #111111;
       color: #f2f2f2;
-      font-family: Georgia, "Times New Roman", serif;
     }
 
     body {
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
+      font-family: Georgia, "Times New Roman", serif;
     }
 
     #toolbar {
       position: fixed;
-      top: 10px;
-      left: 10px;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 20;
+      padding: 8px 8px 7px 8px;
       background: #111111;
+      border-bottom: 1px solid #1f1f1f;
+      white-space: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
     }
 
-    #toolbar button {
+    #toolbar button,
+    #toolbar select {
       display: inline-block;
-      width: 32px;
+      vertical-align: middle;
       height: 32px;
       margin: 0 6px 0 0;
-      padding: 0;
+      padding: 0 8px;
       border: 1px solid #333333;
       background: #111111;
       color: #dddddd;
-      font-size: 16px;
-      line-height: 30px;
-      text-align: center;
-      cursor: pointer;
       border-radius: 4px;
+      font-size: 13px;
+      line-height: 30px;
       -webkit-appearance: none;
       appearance: none;
+      outline: none;
+    }
+
+    #toolbar button {
+      min-width: 32px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    #toolbar select {
+      max-width: 120px;
     }
 
     #toolbar button:active {
       background: #1b1b1b;
     }
 
+    #toolbar .active {
+      border-color: #666666;
+      color: #ffffff;
+    }
+
     #wrap {
       position: absolute;
-      top: 0;
+      top: 48px;
       right: 0;
       bottom: 0;
       left: 0;
@@ -62,9 +86,10 @@
 
     #editor {
       min-height: 100%;
-      padding: 64px 24px 40px 24px;
+      padding: 22px 24px 40px 24px;
       font-size: 22px;
       line-height: 1.7;
+      font-family: "Merriweather", Georgia, "Times New Roman", serif;
       outline: none;
       white-space: pre-wrap;
       word-wrap: break-word;
@@ -75,61 +100,89 @@
       margin: 0 0 1em 0;
     }
 
-    #hint {
-      position: fixed;
-      right: 12px;
-      top: 14px;
-      z-index: 20;
-      font-size: 11px;
-      color: #666666;
-      font-family: Arial, sans-serif;
+    #editor h1 {
+      margin: 0 0 0.7em 0;
+      font-size: 1.6em;
+      line-height: 1.2;
+      font-weight: bold;
+    }
+
+    #editor h2 {
+      margin: 0 0 0.8em 0;
+      font-size: 1.3em;
+      line-height: 1.25;
+      font-weight: bold;
+    }
+
+    #editor blockquote {
+      margin: 0 0 1em 0;
+      padding-left: 14px;
+      border-left: 2px solid #444444;
+      color: #d2d2d2;
     }
 
     @media screen and (max-width: 640px) {
       #toolbar {
-        top: 8px;
-        left: 8px;
+        padding: 7px 6px 6px 6px;
       }
 
-      #toolbar button {
-        width: 30px;
+      #toolbar button,
+      #toolbar select {
         height: 30px;
         margin-right: 4px;
-        font-size: 15px;
+        font-size: 12px;
         line-height: 28px;
       }
 
-      #editor {
-        padding: 56px 16px 32px 16px;
-        font-size: 20px;
-        line-height: 1.6;
+      #toolbar select {
+        max-width: 102px;
       }
 
-      #hint {
-        display: none;
+      #wrap {
+        top: 45px;
+      }
+
+      #editor {
+        padding: 18px 16px 30px 16px;
+        font-size: 20px;
+        line-height: 1.65;
       }
     }
   </style>
 </head>
 <body>
   <div id="toolbar">
-    <button type="button" title="Bold"
-      onmousedown="return keepSelection(event);"
-      ontouchstart="return keepSelection(event);"
-      onclick="runCommand('bold');"><b>B</b></button>
+    <button type="button" id="boldBtn" title="Bold"><b>B</b></button>
+    <button type="button" id="italicBtn" title="Italic"><i>I</i></button>
+    <button type="button" id="underlineBtn" title="Underline"><u>U</u></button>
 
-    <button type="button" title="Italic"
-      onmousedown="return keepSelection(event);"
-      ontouchstart="return keepSelection(event);"
-      onclick="runCommand('italic');"><i>I</i></button>
+    <select id="fontSelect" title="Font">
+      <option value="merriweather">Merriweather</option>
+      <option value="ptserif">PT Serif</option>
+      <option value="opensans">Open Sans</option>
+    </select>
 
-    <button type="button" title="Underline"
-      onmousedown="return keepSelection(event);"
-      ontouchstart="return keepSelection(event);"
-      onclick="runCommand('underline');"><u>U</u></button>
+    <select id="sizeSelect" title="Font size">
+      <option value="16">16 px</option>
+      <option value="18">18 px</option>
+      <option value="20">20 px</option>
+      <option value="22">22 px</option>
+      <option value="24">24 px</option>
+      <option value="28">28 px</option>
+      <option value="32">32 px</option>
+    </select>
+
+    <select id="blockSelect" title="Paragraph style">
+      <option value="P">Paragraph</option>
+      <option value="H1">Heading 1</option>
+      <option value="H2">Heading 2</option>
+      <option value="BLOCKQUOTE">Quote</option>
+    </select>
+
+    <button type="button" id="soundBtn" title="Toggle typing sound">SND OFF</button>
+    <button type="button" id="saveBtn" title="Save note locally">SAVE</button>
+    <button type="button" id="emailBtn" title="Share by email">EMAIL</button>
   </div>
-
-  <div id="hint">autosaves locally</div>
 
   <div id="wrap">
     <div id="editor" contenteditable="true"></div>
@@ -138,9 +191,38 @@
   <script type="text/javascript">
     (function () {
       var editor = document.getElementById("editor");
-      var storageKey = "dark_writer_content";
-      var savedRange = null;
+      var boldBtn = document.getElementById("boldBtn");
+      var italicBtn = document.getElementById("italicBtn");
+      var underlineBtn = document.getElementById("underlineBtn");
+      var fontSelect = document.getElementById("fontSelect");
+      var sizeSelect = document.getElementById("sizeSelect");
+      var blockSelect = document.getElementById("blockSelect");
+      var soundBtn = document.getElementById("soundBtn");
+      var saveBtn = document.getElementById("saveBtn");
+      var emailBtn = document.getElementById("emailBtn");
+
+      var storageContentKey = "dark_writer_content_v2";
+      var storagePrefsKey = "dark_writer_prefs_v2";
       var storageOK = false;
+      var savedRange = null;
+      var lastKeydownAt = 0;
+      var lastSoundAt = 0;
+      var clickAudio = null;
+
+      var clickSoundData =
+        "data:audio/mpeg;base64,SUQzBAAAAAAAIlRTU0UAAAAOAAADTGF2ZjYxLjcuMTAwAAAAAAAAAAAAAAD/83DAAAAAAAAAAAAAWGluZwAAAA8AAAAEAAACCQDZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/////////////////////////////////8AAAAATGF2YzYxLjE5AAAAAAAAAAAAAAAAJARRAAAAAAAAAgkR/w0iAAAAAAAAAAAAAAAAAP/zkMQAA4gCtIAAAACYcA/4Pg+D4Pg4CAIHC6oEuEIYg6FGQXEFBZb//4K1TExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zEMTpAvCWlEAAUuNVVVVVVVVVVVVVVVVV//MQxOoA2AKUAAAAAFVVVVVVVVVVVVVVVVX/8xDE8gAAA0gAAAAAVVVVVVVVVVVVVVVVVQ==";
+
+      var fontMap = {
+        merriweather: "\"Merriweather\", Georgia, \"Times New Roman\", serif",
+        ptserif: "\"PT Serif\", Georgia, \"Times New Roman\", serif",
+        opensans: "\"Open Sans\", Arial, sans-serif"
+      };
+
+      var prefs = {
+        font: "merriweather",
+        size: "22",
+        sound: "off"
+      };
 
       function bind(el, eventName, handler) {
         if (el.addEventListener) {
@@ -154,9 +236,9 @@
 
       function testStorage() {
         try {
-          var x = "__dark_writer_test__";
-          window.localStorage.setItem(x, x);
-          window.localStorage.removeItem(x);
+          var key = "__dark_writer_test__";
+          window.localStorage.setItem(key, key);
+          window.localStorage.removeItem(key);
           return true;
         } catch (e) {
           return false;
@@ -164,49 +246,30 @@
       }
 
       function saveSelectionRange() {
-        if (window.getSelection) {
-          var sel = window.getSelection();
-          if (sel.rangeCount > 0) {
-            savedRange = sel.getRangeAt(0);
-          }
-        } else if (document.selection) {
-          savedRange = document.selection.createRange();
-        }
-      }
-
-      function restoreSelectionRange() {
-        if (!savedRange) {
-          return;
-        }
-
-        if (window.getSelection) {
-          var sel = window.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(savedRange);
-        } else if (document.selection && savedRange.select) {
-          savedRange.select();
-        }
-      }
-
-      function storeContent() {
-        if (!storageOK) {
-          return;
-        }
-
         try {
-          window.localStorage.setItem(storageKey, editor.innerHTML);
+          if (window.getSelection) {
+            var sel = window.getSelection();
+            if (sel && sel.rangeCount > 0) {
+              savedRange = sel.getRangeAt(0);
+            }
+          } else if (document.selection) {
+            savedRange = document.selection.createRange();
+          }
         } catch (e) {}
       }
 
-      function loadContent() {
-        if (!storageOK) {
-          return;
-        }
-
+      function restoreSelectionRange() {
         try {
-          var saved = window.localStorage.getItem(storageKey);
-          if (saved && saved !== "") {
-            editor.innerHTML = saved;
+          if (!savedRange) {
+            return;
+          }
+
+          if (window.getSelection) {
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(savedRange);
+          } else if (document.selection && savedRange.select) {
+            savedRange.select();
           }
         } catch (e) {}
       }
@@ -218,16 +281,127 @@
         }
       }
 
-      window.keepSelection = function (e) {
-        e = e || window.event;
-        if (e.preventDefault) {
-          e.preventDefault();
+      function storeContent() {
+        if (!storageOK) {
+          return;
         }
-        e.returnValue = false;
-        return false;
-      };
+        try {
+          window.localStorage.setItem(storageContentKey, editor.innerHTML);
+        } catch (e) {}
+      }
 
-      window.runCommand = function (command) {
+      function loadContent() {
+        if (!storageOK) {
+          return;
+        }
+        try {
+          var saved = window.localStorage.getItem(storageContentKey);
+          if (saved && saved !== "") {
+            editor.innerHTML = saved;
+          }
+        } catch (e) {}
+      }
+
+      function storePrefs() {
+        if (!storageOK) {
+          return;
+        }
+        try {
+          window.localStorage.setItem(storagePrefsKey, prefs.font + "|" + prefs.size + "|" + prefs.sound);
+        } catch (e) {}
+      }
+
+      function loadPrefs() {
+        if (!storageOK) {
+          return;
+        }
+        try {
+          var saved = window.localStorage.getItem(storagePrefsKey);
+          if (!saved) {
+            return;
+          }
+          var parts = saved.split("|");
+          if (parts[0]) {
+            prefs.font = parts[0];
+          }
+          if (parts[1]) {
+            prefs.size = parts[1];
+          }
+          if (parts[2]) {
+            prefs.sound = parts[2];
+          }
+        } catch (e) {}
+      }
+
+      function applyPrefs() {
+        editor.style.fontFamily = fontMap[prefs.font] || fontMap.merriweather;
+        editor.style.fontSize = prefs.size + "px";
+
+        fontSelect.value = prefs.font;
+        sizeSelect.value = prefs.size;
+
+        if (prefs.sound === "on") {
+          soundBtn.className = "active";
+          soundBtn.innerHTML = "SND ON";
+        } else {
+          soundBtn.className = "";
+          soundBtn.innerHTML = "SND OFF";
+        }
+      }
+
+      function initClickAudio() {
+        if (clickAudio) {
+          return;
+        }
+        try {
+          clickAudio = document.createElement("audio");
+          clickAudio.setAttribute("preload", "auto");
+          clickAudio.src = clickSoundData;
+          if (clickAudio.load) {
+            clickAudio.load();
+          }
+        } catch (e) {
+          clickAudio = null;
+        }
+      }
+
+      function playClick() {
+        var now = new Date().getTime();
+
+        if (prefs.sound !== "on") {
+          return;
+        }
+
+        if (now - lastSoundAt < 30) {
+          return;
+        }
+
+        lastSoundAt = now;
+
+        if (!clickAudio) {
+          initClickAudio();
+        }
+
+        if (!clickAudio) {
+          return;
+        }
+
+        try {
+          if (clickAudio.pause) {
+            clickAudio.pause();
+          }
+        } catch (e) {}
+
+        try {
+          clickAudio.currentTime = 0;
+        } catch (e) {}
+
+        try {
+          clickAudio.play();
+        } catch (e) {}
+      }
+
+      function runCommand(command, value) {
         editor.focus();
         restoreSelectionRange();
 
@@ -236,51 +410,356 @@
         } catch (e) {}
 
         try {
-          document.execCommand(command, false, null);
+          document.execCommand(command, false, value || null);
+        } catch (e) {}
+
+        saveSelectionRange();
+        updateButtonStates();
+        storeContent();
+      }
+
+      function applyBlock(tagName) {
+        editor.focus();
+        restoreSelectionRange();
+
+        try {
+          document.execCommand("formatBlock", false, tagName);
+        } catch (e) {}
+
+        try {
+          document.execCommand("formatBlock", false, "<" + tagName + ">");
         } catch (e) {}
 
         saveSelectionRange();
         storeContent();
-      };
+      }
+
+      function updateButtonStates() {
+        setButtonState(boldBtn, "bold");
+        setButtonState(italicBtn, "italic");
+        setButtonState(underlineBtn, "underline");
+      }
+
+      function setButtonState(button, command) {
+        var active = false;
+        try {
+          active = document.queryCommandState(command);
+        } catch (e) {
+          active = false;
+        }
+        button.className = active ? "active" : "";
+      }
+
+      function getPlainText() {
+        if (typeof editor.innerText !== "undefined") {
+          return editor.innerText;
+        }
+        if (typeof editor.textContent !== "undefined") {
+          return editor.textContent;
+        }
+        return "";
+      }
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function cleanFileName(name) {
+        var value = name || "note";
+        value = value.replace(/[\\\/:\*\?\"<>\|]+/g, "_");
+        value = value.replace(/^\s+|\s+$/g, "");
+        if (!value) {
+          value = "note";
+        }
+        if (value.toLowerCase().indexOf(".html") === -1) {
+          value += ".html";
+        }
+        return value;
+      }
+
+      function buildExportHtml(title) {
+        var parts = [];
+        var fontCss = fontMap[prefs.font] || fontMap.merriweather;
+        var sizeCss = prefs.size || "22";
+
+        parts.push("<!DOCTYPE html>");
+        parts.push("<html>");
+        parts.push("<head>");
+        parts.push("<meta charset=\"utf-8\">");
+        parts.push("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        parts.push("<title>" + escapeHtml(title) + "</title>");
+        parts.push("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fonts.googleapis.com/css?family=Merriweather:400|PT+Serif:400|Open+Sans:400\">");
+        parts.push("<style type=\"text/css\">");
+        parts.push("html,body{margin:0;padding:0;background:#111111;color:#f2f2f2;font-family:" + fontCss + ";}");
+        parts.push("#note{padding:24px;font-size:" + sizeCss + "px;line-height:1.7;word-wrap:break-word;}");
+        parts.push("#note p,#note div{margin:0 0 1em 0;}");
+        parts.push("#note h1{margin:0 0 0.7em 0;font-size:1.6em;line-height:1.2;font-weight:bold;}");
+        parts.push("#note h2{margin:0 0 0.8em 0;font-size:1.3em;line-height:1.25;font-weight:bold;}");
+        parts.push("#note blockquote{margin:0 0 1em 0;padding-left:14px;border-left:2px solid #444444;color:#d2d2d2;}");
+        parts.push("</style>");
+        parts.push("</head>");
+        parts.push("<body>");
+        parts.push("<div id=\"note\">");
+        parts.push(editor.innerHTML);
+        parts.push("</div>");
+        parts.push("</body>");
+        parts.push("</html>");
+
+        return parts.join("");
+      }
+
+      function simulateClick(el) {
+        try {
+          if (el.click) {
+            el.click();
+            return;
+          }
+        } catch (e) {}
+
+        try {
+          var evt = document.createEvent("MouseEvents");
+          evt.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+          el.dispatchEvent(evt);
+        } catch (e) {}
+      }
+
+      function downloadTextFile(fileName, text, mimeType) {
+        var blob, url, a, popupUrl;
+
+        mimeType = mimeType || "text/html";
+
+        if (window.Blob && window.URL && URL.createObjectURL) {
+          try {
+            blob = new Blob([text], { type: mimeType + ";charset=utf-8" });
+
+            if (window.navigator && navigator.msSaveBlob) {
+              navigator.msSaveBlob(blob, fileName);
+              return;
+            }
+
+            url = URL.createObjectURL(blob);
+            a = document.createElement("a");
+            a.href = url;
+
+            if (typeof a.download !== "undefined") {
+              a.download = fileName;
+
+              try {
+                document.body.appendChild(a);
+              } catch (e) {}
+
+              simulateClick(a);
+
+              setTimeout(function () {
+                try {
+                  if (a.parentNode) {
+                    a.parentNode.removeChild(a);
+                  }
+                } catch (e) {}
+                try {
+                  URL.revokeObjectURL(url);
+                } catch (e) {}
+              }, 500);
+
+              return;
+            } else {
+              popupUrl = window.open(url, "_blank");
+              if (!popupUrl) {
+                window.location.href = url;
+              }
+
+              setTimeout(function () {
+                try {
+                  URL.revokeObjectURL(url);
+                } catch (e) {}
+              }, 3000);
+
+              return;
+            }
+          } catch (e) {}
+        }
+
+        try {
+          popupUrl = "data:" + mimeType + ";charset=utf-8," + encodeURIComponent(text);
+          if (!window.open(popupUrl, "_blank")) {
+            window.location.href = popupUrl;
+          }
+        } catch (e) {
+          alert("Save is not supported in this browser.");
+        }
+      }
+
+      function saveNote() {
+        var name = window.prompt("File name:", "note");
+        var fileName, htmlText;
+
+        if (name === null) {
+          return;
+        }
+
+        fileName = cleanFileName(name);
+        htmlText = buildExportHtml(fileName.replace(/\.html$/i, ""));
+
+        downloadTextFile(fileName, htmlText, "text/html");
+      }
+
+      function emailNote() {
+        var to = window.prompt("Email to (optional):", "");
+        var subject = window.prompt("Email subject:", "Note");
+        var body;
+
+        if (to === null || subject === null) {
+          return;
+        }
+
+        body = getPlainText();
+
+        window.location.href =
+          "mailto:" + to +
+          "?subject=" + encodeURIComponent(subject) +
+          "&body=" + encodeURIComponent(body);
+      }
+
+      function isTypingKey(evt) {
+        var code = evt.which || evt.keyCode;
+
+        if (code === 8 || code === 13 || code === 32 || code === 46) {
+          return true;
+        }
+
+        if (code >= 48 && code <= 90) {
+          return true;
+        }
+
+        if (code >= 96 && code <= 111) {
+          return true;
+        }
+
+        if (code >= 186 && code <= 222) {
+          return true;
+        }
+
+        return false;
+      }
 
       storageOK = testStorage();
+      loadPrefs();
       loadContent();
       ensureStartContent();
+      applyPrefs();
+      updateButtonStates();
+
+      bind(boldBtn, "click", function () {
+        runCommand("bold");
+      });
+
+      bind(italicBtn, "click", function () {
+        runCommand("italic");
+      });
+
+      bind(underlineBtn, "click", function () {
+        runCommand("underline");
+      });
+
+      bind(fontSelect, "change", function () {
+        prefs.font = this.value;
+        applyPrefs();
+        storePrefs();
+        editor.focus();
+      });
+
+      bind(sizeSelect, "change", function () {
+        prefs.size = this.value;
+        applyPrefs();
+        storePrefs();
+        editor.focus();
+      });
+
+      bind(blockSelect, "change", function () {
+        applyBlock(this.value);
+        editor.focus();
+      });
+
+      bind(soundBtn, "click", function () {
+        prefs.sound = prefs.sound === "on" ? "off" : "on";
+        if (prefs.sound === "on") {
+          initClickAudio();
+          playClick();
+        }
+        applyPrefs();
+        storePrefs();
+        editor.focus();
+      });
+
+      bind(saveBtn, "click", function () {
+        saveNote();
+      });
+
+      bind(emailBtn, "click", function () {
+        emailNote();
+      });
+
+      bind(editor, "keydown", function (evt) {
+        lastKeydownAt = new Date().getTime();
+        if (isTypingKey(evt || window.event)) {
+          playClick();
+        }
+      });
+
+      bind(editor, "input", function () {
+        var now = new Date().getTime();
+        if (now - lastKeydownAt > 80) {
+          playClick();
+        }
+        saveSelectionRange();
+        updateButtonStates();
+        storeContent();
+      });
 
       bind(editor, "keyup", function () {
         saveSelectionRange();
+        updateButtonStates();
         storeContent();
       });
 
       bind(editor, "mouseup", function () {
         saveSelectionRange();
+        updateButtonStates();
       });
 
       bind(editor, "touchend", function () {
         saveSelectionRange();
+        updateButtonStates();
       });
 
       bind(editor, "focus", function () {
         saveSelectionRange();
+        updateButtonStates();
       });
 
-      bind(editor, "input", function () {
+      bind(editor, "blur", function () {
         saveSelectionRange();
-        storeContent();
       });
 
       bind(editor, "paste", function () {
         setTimeout(function () {
           saveSelectionRange();
+          updateButtonStates();
           storeContent();
         }, 0);
       });
 
       bind(window, "beforeunload", function () {
         storeContent();
+        storePrefs();
       });
 
       editor.focus();
+      saveSelectionRange();
     })();
   </script>
 </body>
