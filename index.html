@@ -55,7 +55,7 @@
       min-height: 100%;
       max-width: 760px;
       margin: 0 auto;
-      padding: 18px 66px 72px 16px;
+      padding: 18px 66px 48px 16px;
       box-sizing: border-box;
       outline: none;
       word-wrap: break-word;
@@ -109,14 +109,12 @@
 
     .toolbtn {
       display: block;
+      position: relative;
       width: 32px;
       height: 32px;
       margin: 0 0 8px 0;
       padding: 0;
       border-radius: 16px;
-      font-size: 12px;
-      line-height: 30px;
-      text-align: center;
       cursor: pointer;
       outline: none;
       box-sizing: border-box;
@@ -126,7 +124,9 @@
       color: #111111;
       border: 1px solid #ffffff;
       font-family: Arial, Helvetica, sans-serif;
-      font-weight: normal;
+      font-size: 12px;
+      line-height: 30px;
+      text-align: center;
     }
 
     body.theme-light .toolbtn {
@@ -136,7 +136,92 @@
     }
 
     .toolbtn.active {
-      box-shadow: 0 0 0 2px rgba(140,140,140,0.35);
+      box-shadow: 0 0 0 2px rgba(140, 140, 140, 0.35);
+    }
+
+    .formatbtn {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    #italicBtn {
+      font-style: italic;
+    }
+
+    #themeBtn {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      line-height: 28px;
+    }
+
+    #menuBtn {
+      font-size: 15px;
+      line-height: 28px;
+    }
+
+    .cornerbtn span {
+      position: absolute;
+      display: block;
+      width: 8px;
+      height: 8px;
+      font-size: 0;
+      line-height: 0;
+    }
+
+    .cornerbtn .tl {
+      top: 7px;
+      left: 7px;
+      border-top: 2px solid #111111;
+      border-left: 2px solid #111111;
+    }
+
+    .cornerbtn .tr {
+      top: 7px;
+      right: 7px;
+      border-top: 2px solid #111111;
+      border-right: 2px solid #111111;
+    }
+
+    .cornerbtn .bl {
+      bottom: 7px;
+      left: 7px;
+      border-bottom: 2px solid #111111;
+      border-left: 2px solid #111111;
+    }
+
+    .cornerbtn .br {
+      bottom: 7px;
+      right: 7px;
+      border-bottom: 2px solid #111111;
+      border-right: 2px solid #111111;
+    }
+
+    body.theme-light .cornerbtn .tl,
+    body.theme-light .cornerbtn .tr,
+    body.theme-light .cornerbtn .bl,
+    body.theme-light .cornerbtn .br {
+      border-color: #ffffff;
+    }
+
+    .cornerbtn.full-active .tl {
+      top: 10px;
+      left: 10px;
+    }
+
+    .cornerbtn.full-active .tr {
+      top: 10px;
+      right: 10px;
+    }
+
+    .cornerbtn.full-active .bl {
+      bottom: 10px;
+      left: 10px;
+    }
+
+    .cornerbtn.full-active .br {
+      bottom: 10px;
+      right: 10px;
     }
 
     #menuPanel {
@@ -206,17 +291,6 @@
       border: 1px solid #111111;
     }
 
-    #status {
-      position: absolute;
-      left: 12px;
-      bottom: 10px;
-      z-index: 20;
-      font-size: 10px;
-      line-height: 1.2;
-      font-family: Arial, Helvetica, sans-serif;
-      opacity: 0.72;
-    }
-
     @media screen and (max-width: 700px) {
       #toolbar {
         top: 8px;
@@ -229,7 +303,20 @@
         height: 30px;
         line-height: 28px;
         margin-bottom: 6px;
-        font-size: 11px;
+      }
+
+      .formatbtn {
+        font-size: 15px;
+      }
+
+      #themeBtn {
+        font-size: 16px;
+        line-height: 27px;
+      }
+
+      #menuBtn {
+        font-size: 14px;
+        line-height: 27px;
       }
 
       #menuPanel {
@@ -240,7 +327,7 @@
       }
 
       #editor {
-        padding: 14px 52px 58px 12px;
+        padding: 14px 52px 42px 12px;
         font-size: 15px;
         line-height: 1.46;
       }
@@ -251,10 +338,23 @@
         font-size: 11px;
       }
 
-      #status {
-        left: 10px;
-        bottom: 8px;
+      .cornerbtn .tl,
+      .cornerbtn .tr,
+      .cornerbtn .bl,
+      .cornerbtn .br {
+        width: 7px;
+        height: 7px;
       }
+
+      .cornerbtn .tl { top: 7px; left: 7px; }
+      .cornerbtn .tr { top: 7px; right: 7px; }
+      .cornerbtn .bl { bottom: 7px; left: 7px; }
+      .cornerbtn .br { bottom: 7px; right: 7px; }
+
+      .cornerbtn.full-active .tl { top: 10px; left: 10px; }
+      .cornerbtn.full-active .tr { top: 10px; right: 10px; }
+      .cornerbtn.full-active .bl { bottom: 10px; left: 10px; }
+      .cornerbtn.full-active .br { bottom: 10px; right: 10px; }
     }
 
     @media screen and (orientation: landscape) and (max-height: 500px) {
@@ -262,7 +362,7 @@
         font-size: 15px;
         line-height: 1.42;
         padding-top: 12px;
-        padding-bottom: 46px;
+        padding-bottom: 38px;
       }
 
       .toolbtn {
@@ -278,12 +378,19 @@
     </div>
 
     <div id="toolbar">
-      <button type="button" class="toolbtn" id="boldBtn" title="Bold"><b>B</b></button>
-      <button type="button" class="toolbtn" id="italicBtn" title="Italic"><i>I</i></button>
-      <button type="button" class="toolbtn" id="underlineBtn" title="Underline"><u>U</u></button>
-      <button type="button" class="toolbtn" id="themeBtn" title="Theme">&#9728;</button>
-      <button type="button" class="toolbtn" id="fullBtn" title="Full screen">FS</button>
-      <button type="button" class="toolbtn" id="menuBtn" title="More">&#9776;</button>
+      <button type="button" class="toolbtn formatbtn" id="boldBtn" title="Bold">B</button>
+      <button type="button" class="toolbtn formatbtn" id="italicBtn" title="Italic">I</button>
+      <button type="button" class="toolbtn formatbtn" id="underlineBtn" title="Underline">U</button>
+      <button type="button" class="toolbtn" id="themeBtn" title="Theme">*</button>
+
+      <button type="button" class="toolbtn cornerbtn" id="fullBtn" title="Full screen">
+        <span class="tl"></span>
+        <span class="tr"></span>
+        <span class="bl"></span>
+        <span class="br"></span>
+      </button>
+
+      <button type="button" class="toolbtn" id="menuBtn" title="More">+</button>
     </div>
 
     <div id="menuPanel">
@@ -320,10 +427,6 @@
       </div>
 
       <div class="panelRow">
-        <button type="button" class="panelBtn" id="soundBtn">Sound off</button>
-      </div>
-
-      <div class="panelRow">
         <button type="button" class="panelBtn" id="saveBtn">Save HTML</button>
       </div>
 
@@ -331,8 +434,6 @@
         <button type="button" class="panelBtn" id="emailBtn">Email text</button>
       </div>
     </div>
-
-    <div id="status">autosaves locally</div>
   </div>
 
   <script type="text/javascript">
@@ -348,26 +449,20 @@
       var fontSelect = document.getElementById("fontSelect");
       var sizeSelect = document.getElementById("sizeSelect");
       var styleSelect = document.getElementById("styleSelect");
-      var soundBtn = document.getElementById("soundBtn");
       var saveBtn = document.getElementById("saveBtn");
       var emailBtn = document.getElementById("emailBtn");
 
-      var contentKey = "n0tes_content_v4";
-      var prefsKey = "n0tes_prefs_v4";
+      var contentKey = "n0tes_content_v5";
+      var prefsKey = "n0tes_prefs_v5";
       var storageOK = false;
       var savedRange = null;
-      var lastKeydownAt = 0;
-      var lastSoftInputSoundAt = 0;
-
-      var soundPool = [];
-      var soundIndex = 0;
-      var soundSrc = null;
+      var isDirty = false;
+      var autosaveTimer = null;
 
       var prefs = {
         font: "serif",
         size: "16",
-        theme: "dark",
-        sound: "off"
+        theme: "dark"
       };
 
       var fontMap = {
@@ -456,12 +551,17 @@
         }
       }
 
+      function markDirty() {
+        isDirty = true;
+      }
+
       function storeContent() {
         if (!storageOK) {
           return;
         }
         try {
           window.localStorage.setItem(contentKey, editor.innerHTML);
+          isDirty = false;
         } catch (e) {}
       }
 
@@ -484,7 +584,7 @@
         try {
           window.localStorage.setItem(
             prefsKey,
-            prefs.font + "|" + prefs.size + "|" + prefs.theme + "|" + prefs.sound
+            prefs.font + "|" + prefs.size + "|" + prefs.theme
           );
         } catch (e) {}
       }
@@ -503,7 +603,6 @@
           if (parts[0]) { prefs.font = parts[0]; }
           if (parts[1]) { prefs.size = parts[1]; }
           if (parts[2]) { prefs.theme = parts[2]; }
-          if (parts[3]) { prefs.sound = parts[3]; }
         } catch (e) {}
       }
 
@@ -519,12 +618,6 @@
 
         fontSelect.value = prefs.font;
         sizeSelect.value = prefs.size;
-
-        if (prefs.sound === "on") {
-          soundBtn.innerHTML = "Sound on";
-        } else {
-          soundBtn.innerHTML = "Sound off";
-        }
 
         updateFullButton();
       }
@@ -543,7 +636,7 @@
 
         saveSelectionRange();
         updateFormatButtons();
-        storeContent();
+        markDirty();
       }
 
       function applyBlock(tagName) {
@@ -559,7 +652,7 @@
         } catch (e) {}
 
         saveSelectionRange();
-        storeContent();
+        markDirty();
       }
 
       function setCommandState(button, command) {
@@ -643,11 +736,11 @@
         parts.push("<html>");
         parts.push("<head>");
         parts.push("<meta charset=\"utf-8\">");
-        parts.push("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        parts.push("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">");
         parts.push("<title>" + escapeHtml(title) + "</title>");
         parts.push("<style type=\"text/css\">");
         parts.push("html,body{margin:0;padding:0;background:" + bg + ";color:" + fg + ";}");
-        parts.push("body{font-family:" + fontCss + ";}");
+        parts.push("body{font-family:" + fontCss + ";-webkit-text-size-adjust:100%;text-size-adjust:100%;}");
         parts.push("#note{max-width:760px;margin:0 auto;padding:18px 16px 40px 16px;font-size:" + prefs.size + "px;line-height:1.52;word-wrap:break-word;white-space:normal;}");
         parts.push("#note p,#note div{margin:0 0 0.85em 0;}");
         parts.push("#note h1{margin:0 0 0.7em 0;font-size:1.5em;line-height:1.12;font-weight:bold;}");
@@ -766,226 +859,6 @@
           "&body=" + encodeURIComponent(body);
       }
 
-      function base64Encode(input) {
-        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        var str = input;
-        var output = "";
-        var i = 0;
-        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-
-        while (i < str.length) {
-          chr1 = str.charCodeAt(i++);
-          chr2 = str.charCodeAt(i++);
-          chr3 = str.charCodeAt(i++);
-
-          enc1 = chr1 >> 2;
-          enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-          enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-          enc4 = chr3 & 63;
-
-          if (isNaN(chr2)) {
-            enc3 = 64;
-            enc4 = 64;
-          } else if (isNaN(chr3)) {
-            enc4 = 64;
-          }
-
-          output = output +
-            chars.charAt(enc1) +
-            chars.charAt(enc2) +
-            (enc3 === 64 ? "=" : chars.charAt(enc3)) +
-            (enc4 === 64 ? "=" : chars.charAt(enc4));
-        }
-
-        return output;
-      }
-
-      function clampByte(n) {
-        if (n < 0) { return 0; }
-        if (n > 255) { return 255; }
-        return n;
-      }
-
-      function push16(arr, value) {
-        arr[arr.length] = value & 255;
-        arr[arr.length] = (value >> 8) & 255;
-      }
-
-      function push32(arr, value) {
-        arr[arr.length] = value & 255;
-        arr[arr.length] = (value >> 8) & 255;
-        arr[arr.length] = (value >> 16) & 255;
-        arr[arr.length] = (value >> 24) & 255;
-      }
-
-      function bytesToString(arr) {
-        var out = "";
-        var i;
-        for (i = 0; i < arr.length; i++) {
-          out += String.fromCharCode(arr[i]);
-        }
-        return out;
-      }
-
-      function buildClickWavDataUri() {
-        var sampleRate = 8000;
-        var sampleCount = 88;
-        var dataBytes = [];
-        var bytes = [];
-        var i, amp, val, sign, noise, seed;
-
-        seed = 17;
-
-        for (i = 0; i < sampleCount; i++) {
-          amp = (sampleCount - i) / sampleCount;
-          sign = (i % 2 === 0) ? 1 : -1;
-          seed = (seed * 1103515245 + 12345) & 2147483647;
-          noise = ((seed >> 16) & 31) - 15;
-          val = 128 + (sign * 70 * amp) + (noise * amp);
-          dataBytes[dataBytes.length] = clampByte(parseInt(val, 10));
-        }
-
-        bytes[bytes.length] = 82;  /* R */
-        bytes[bytes.length] = 73;  /* I */
-        bytes[bytes.length] = 70;  /* F */
-        bytes[bytes.length] = 70;  /* F */
-        push32(bytes, 36 + dataBytes.length);
-        bytes[bytes.length] = 87;  /* W */
-        bytes[bytes.length] = 65;  /* A */
-        bytes[bytes.length] = 86;  /* V */
-        bytes[bytes.length] = 69;  /* E */
-
-        bytes[bytes.length] = 102; /* f */
-        bytes[bytes.length] = 109; /* m */
-        bytes[bytes.length] = 116; /* t */
-        bytes[bytes.length] = 32;  /* space */
-        push32(bytes, 16);
-        push16(bytes, 1);
-        push16(bytes, 1);
-        push32(bytes, sampleRate);
-        push32(bytes, sampleRate * 1 * 8 / 8);
-        push16(bytes, 1 * 8 / 8);
-        push16(bytes, 8);
-
-        bytes[bytes.length] = 100; /* d */
-        bytes[bytes.length] = 97;  /* a */
-        bytes[bytes.length] = 116; /* t */
-        bytes[bytes.length] = 97;  /* a */
-        push32(bytes, dataBytes.length);
-
-        for (i = 0; i < dataBytes.length; i++) {
-          bytes[bytes.length] = dataBytes[i];
-        }
-
-        return "data:audio/wav;base64," + base64Encode(bytesToString(bytes));
-      }
-
-      function initSoundPool() {
-        var i, a;
-
-        if (soundPool.length > 0) {
-          return true;
-        }
-
-        if (!window.Audio) {
-          return false;
-        }
-
-        if (!soundSrc) {
-          soundSrc = buildClickWavDataUri();
-        }
-
-        try {
-          for (i = 0; i < 10; i++) {
-            a = new Audio();
-            a.preload = "auto";
-            a.src = soundSrc;
-            a.volume = 0.25;
-            if (a.load) {
-              try { a.load(); } catch (e) {}
-            }
-            soundPool[soundPool.length] = a;
-          }
-          return true;
-        } catch (e) {
-          soundPool = [];
-          return false;
-        }
-      }
-
-      function playClick() {
-        var a;
-        var result;
-
-        if (prefs.sound !== "on") {
-          return;
-        }
-
-        if (!soundPool.length) {
-          if (!initSoundPool()) {
-            return;
-          }
-        }
-
-        a = soundPool[soundIndex];
-        soundIndex++;
-        if (soundIndex >= soundPool.length) {
-          soundIndex = 0;
-        }
-
-        if (!a) {
-          return;
-        }
-
-        try {
-          if (a.pause) {
-            a.pause();
-          }
-        } catch (e) {}
-
-        try {
-          a.currentTime = 0;
-        } catch (e) {}
-
-        try {
-          result = a.play();
-          if (result && result.then) {
-            result.then(function () {}).catch(function () {});
-          }
-        } catch (e) {}
-      }
-
-      function toggleSound() {
-        if (prefs.sound === "on") {
-          prefs.sound = "off";
-        } else {
-          prefs.sound = "on";
-          initSoundPool();
-          playClick();
-        }
-        applyPrefs();
-        storePrefs();
-        editor.focus();
-      }
-
-      function isTypingKey(evt) {
-        var code = evt.which || evt.keyCode;
-
-        if (code === 8 || code === 13 || code === 32 || code === 46) {
-          return true;
-        }
-        if (code >= 48 && code <= 90) {
-          return true;
-        }
-        if (code >= 96 && code <= 111) {
-          return true;
-        }
-        if (code >= 186 && code <= 222) {
-          return true;
-        }
-        return false;
-      }
-
       function getFullscreenElement() {
         return document.fullscreenElement ||
                document.webkitFullscreenElement ||
@@ -1044,9 +917,9 @@
 
       function updateFullButton() {
         if (getFullscreenElement()) {
-          addClass(fullBtn, "active");
+          addClass(fullBtn, "full-active");
         } else {
-          removeClass(fullBtn, "active");
+          removeClass(fullBtn, "full-active");
         }
       }
 
@@ -1059,12 +932,25 @@
         setTimeout(updateFullButton, 120);
       }
 
+      function startAutosave() {
+        if (autosaveTimer) {
+          return;
+        }
+
+        autosaveTimer = setInterval(function () {
+          if (isDirty) {
+            storeContent();
+          }
+        }, 4000);
+      }
+
       storageOK = testStorage();
       loadPrefs();
       loadContent();
       ensureStartContent();
       applyPrefs();
       updateFormatButtons();
+      startAutosave();
 
       bind(boldBtn, "click", function (evt) {
         stopEvent(evt);
@@ -1115,10 +1001,6 @@
         editor.focus();
       });
 
-      bind(soundBtn, "click", function () {
-        toggleSound();
-      });
-
       bind(saveBtn, "click", function () {
         saveNote();
       });
@@ -1127,28 +1009,16 @@
         emailNote();
       });
 
-      bind(editor, "keydown", function (evt) {
-        lastKeydownAt = new Date().getTime();
-        if (isTypingKey(evt || window.event)) {
-          playClick();
-        }
-      });
-
       bind(editor, "input", function () {
-        var now = new Date().getTime();
-        if (now - lastKeydownAt > 60 && now - lastSoftInputSoundAt > 30) {
-          playClick();
-          lastSoftInputSoundAt = now;
-        }
         saveSelectionRange();
         updateFormatButtons();
-        storeContent();
+        markDirty();
       });
 
       bind(editor, "keyup", function () {
         saveSelectionRange();
         updateFormatButtons();
-        storeContent();
+        markDirty();
       });
 
       bind(editor, "mouseup", function () {
@@ -1174,7 +1044,7 @@
         setTimeout(function () {
           saveSelectionRange();
           updateFormatButtons();
-          storeContent();
+          markDirty();
         }, 0);
       });
 
@@ -1187,7 +1057,6 @@
             target !== fontSelect &&
             target !== sizeSelect &&
             target !== styleSelect &&
-            target !== soundBtn &&
             target !== saveBtn &&
             target !== emailBtn) {
           menuPanel.style.display = "none";
@@ -1201,7 +1070,9 @@
       bind(document, "MSFullscreenChange", updateFullButton);
 
       bind(window, "beforeunload", function () {
-        storeContent();
+        if (isDirty) {
+          storeContent();
+        }
         storePrefs();
       });
 
