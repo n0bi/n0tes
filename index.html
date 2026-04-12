@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Quiet Writer</title>
+  <title>n0tes</title>
+
   <style type="text/css">
     html, body {
       margin: 0;
@@ -14,18 +15,18 @@
     }
 
     body {
-      font-family: Georgia, "Times New Roman", serif;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
+      font-family: Georgia, "Times New Roman", serif;
     }
 
     body.theme-dark {
-      background: #090b12;
+      background: #0a0a0a;
       color: #f4f4f4;
     }
 
     body.theme-light {
-      background: #f1f1ed;
+      background: #f2f2ee;
       color: #111111;
     }
 
@@ -54,53 +55,53 @@
       min-height: 100%;
       max-width: 760px;
       margin: 0 auto;
-      padding: 22px 64px 80px 18px;
+      padding: 18px 66px 72px 16px;
+      box-sizing: border-box;
       outline: none;
       word-wrap: break-word;
       white-space: pre-wrap;
+      font-size: 16px;
+      line-height: 1.52;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 18px;
-      line-height: 1.55;
-      box-sizing: border-box;
     }
 
     #editor p,
     #editor div {
-      margin: 0 0 0.9em 0;
+      margin: 0 0 0.85em 0;
     }
 
     #editor h1 {
       margin: 0 0 0.7em 0;
-      font-size: 1.55em;
-      line-height: 1.15;
+      font-size: 1.5em;
+      line-height: 1.12;
       font-weight: bold;
     }
 
     #editor h2 {
       margin: 0 0 0.8em 0;
       font-size: 1.22em;
-      line-height: 1.2;
+      line-height: 1.18;
       font-weight: bold;
     }
 
     #editor blockquote {
-      margin: 0 0 0.9em 0;
+      margin: 0 0 0.85em 0;
       padding-left: 12px;
     }
 
     body.theme-dark #editor blockquote {
-      border-left: 2px solid #5c6173;
-      color: #d9d9df;
+      border-left: 2px solid #5c5c5c;
+      color: #d8d8d8;
     }
 
     body.theme-light #editor blockquote {
-      border-left: 2px solid #8f8f88;
+      border-left: 2px solid #96968d;
       color: #333333;
     }
 
     #toolbar {
       position: absolute;
-      top: 14px;
+      top: 12px;
       right: 10px;
       z-index: 30;
       width: 36px;
@@ -113,17 +114,19 @@
       margin: 0 0 8px 0;
       padding: 0;
       border-radius: 16px;
-      font-size: 13px;
+      font-size: 12px;
       line-height: 30px;
       text-align: center;
       cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
       outline: none;
       box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
       background: #ffffff;
       color: #111111;
       border: 1px solid #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: normal;
     }
 
     body.theme-light .toolbtn {
@@ -133,31 +136,32 @@
     }
 
     .toolbtn.active {
-      box-shadow: 0 0 0 2px rgba(127,127,127,0.4);
+      box-shadow: 0 0 0 2px rgba(140,140,140,0.35);
     }
 
     #menuPanel {
       display: none;
       position: absolute;
-      top: 14px;
+      top: 12px;
       right: 52px;
       z-index: 29;
       width: 156px;
       padding: 8px;
       border-radius: 12px;
       box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body.theme-dark #menuPanel {
-      background: #111420;
+      background: #121212;
       color: #f4f4f4;
-      border: 1px solid #2c3142;
+      border: 1px solid #2e2e2e;
     }
 
     body.theme-light #menuPanel {
-      background: #fafaf7;
+      background: #fbfbf8;
       color: #111111;
-      border: 1px solid #cbcbc4;
+      border: 1px solid #ccccbf;
     }
 
     .panelRow {
@@ -171,7 +175,6 @@
       line-height: 1.2;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      font-family: Arial, Helvetica, sans-serif;
     }
 
     .panelSelect,
@@ -183,9 +186,9 @@
       border-radius: 8px;
       box-sizing: border-box;
       outline: none;
+      font-size: 12px;
       -webkit-appearance: none;
       appearance: none;
-      font-size: 12px;
       font-family: Arial, Helvetica, sans-serif;
     }
 
@@ -205,18 +208,18 @@
 
     #status {
       position: absolute;
-      left: 14px;
+      left: 12px;
       bottom: 10px;
       z-index: 20;
       font-size: 10px;
       line-height: 1.2;
       font-family: Arial, Helvetica, sans-serif;
-      opacity: 0.75;
+      opacity: 0.72;
     }
 
     @media screen and (max-width: 700px) {
       #toolbar {
-        top: 10px;
+        top: 8px;
         right: 8px;
         width: 32px;
       }
@@ -226,20 +229,20 @@
         height: 30px;
         line-height: 28px;
         margin-bottom: 6px;
-        font-size: 12px;
+        font-size: 11px;
       }
 
       #menuPanel {
-        top: 10px;
-        right: 44px;
-        width: 138px;
+        top: 8px;
+        right: 42px;
+        width: 140px;
         padding: 7px;
       }
 
       #editor {
-        padding: 16px 52px 68px 14px;
-        font-size: 17px;
-        line-height: 1.5;
+        padding: 14px 52px 58px 12px;
+        font-size: 15px;
+        line-height: 1.46;
       }
 
       .panelSelect,
@@ -256,10 +259,10 @@
 
     @media screen and (orientation: landscape) and (max-height: 500px) {
       #editor {
-        font-size: 16px;
-        line-height: 1.45;
-        padding-top: 14px;
-        padding-bottom: 50px;
+        font-size: 15px;
+        line-height: 1.42;
+        padding-top: 12px;
+        padding-bottom: 46px;
       }
 
       .toolbtn {
@@ -278,8 +281,9 @@
       <button type="button" class="toolbtn" id="boldBtn" title="Bold"><b>B</b></button>
       <button type="button" class="toolbtn" id="italicBtn" title="Italic"><i>I</i></button>
       <button type="button" class="toolbtn" id="underlineBtn" title="Underline"><u>U</u></button>
-      <button type="button" class="toolbtn" id="themeBtn" title="Theme">T</button>
-      <button type="button" class="toolbtn" id="menuBtn" title="More">+</button>
+      <button type="button" class="toolbtn" id="themeBtn" title="Theme">&#9728;</button>
+      <button type="button" class="toolbtn" id="fullBtn" title="Full screen">FS</button>
+      <button type="button" class="toolbtn" id="menuBtn" title="More">&#9776;</button>
     </div>
 
     <div id="menuPanel">
@@ -295,13 +299,13 @@
       <div class="panelRow">
         <label class="panelLabel" for="sizeSelect">Text size</label>
         <select class="panelSelect" id="sizeSelect">
+          <option value="14">14 px</option>
           <option value="15">15 px</option>
           <option value="16">16 px</option>
           <option value="17">17 px</option>
           <option value="18">18 px</option>
           <option value="20">20 px</option>
           <option value="22">22 px</option>
-          <option value="24">24 px</option>
         </select>
       </div>
 
@@ -338,6 +342,7 @@
       var italicBtn = document.getElementById("italicBtn");
       var underlineBtn = document.getElementById("underlineBtn");
       var themeBtn = document.getElementById("themeBtn");
+      var fullBtn = document.getElementById("fullBtn");
       var menuBtn = document.getElementById("menuBtn");
       var menuPanel = document.getElementById("menuPanel");
       var fontSelect = document.getElementById("fontSelect");
@@ -347,19 +352,20 @@
       var saveBtn = document.getElementById("saveBtn");
       var emailBtn = document.getElementById("emailBtn");
 
-      var contentKey = "quiet_writer_content_v3";
-      var prefsKey = "quiet_writer_prefs_v3";
+      var contentKey = "n0tes_content_v4";
+      var prefsKey = "n0tes_prefs_v4";
       var storageOK = false;
       var savedRange = null;
-      var lastSoundAt = 0;
-      var lastKeyTime = 0;
+      var lastKeydownAt = 0;
+      var lastSoftInputSoundAt = 0;
 
-      var audioCtx = null;
-      var clickBuffer = null;
+      var soundPool = [];
+      var soundIndex = 0;
+      var soundSrc = null;
 
       var prefs = {
         font: "serif",
-        size: "18",
+        size: "16",
         theme: "dark",
         sound: "off"
       };
@@ -395,9 +401,17 @@
         el.className = el.className.replace(reg, " ").replace(/\s+/g, " ").replace(/^\s+|\s+$/g, "");
       }
 
+      function stopEvent(evt) {
+        evt = evt || window.event;
+        if (evt.stopPropagation) {
+          evt.stopPropagation();
+        }
+        evt.cancelBubble = true;
+      }
+
       function testStorage() {
         try {
-          var x = "__quiet_writer_test__";
+          var x = "__n0tes_test__";
           window.localStorage.setItem(x, x);
           window.localStorage.removeItem(x);
           return true;
@@ -511,16 +525,8 @@
         } else {
           soundBtn.innerHTML = "Sound off";
         }
-      }
 
-      function toggleMenu() {
-        if (menuPanel.style.display === "block") {
-          menuPanel.style.display = "none";
-          removeClass(menuBtn, "active");
-        } else {
-          menuPanel.style.display = "block";
-          addClass(menuBtn, "active");
-        }
+        updateFullButton();
       }
 
       function runCommand(command, value) {
@@ -556,12 +562,6 @@
         storeContent();
       }
 
-      function updateFormatButtons() {
-        setCommandState(boldBtn, "bold");
-        setCommandState(italicBtn, "italic");
-        setCommandState(underlineBtn, "underline");
-      }
-
       function setCommandState(button, command) {
         var state = false;
         try {
@@ -575,6 +575,29 @@
         } else {
           removeClass(button, "active");
         }
+      }
+
+      function updateFormatButtons() {
+        setCommandState(boldBtn, "bold");
+        setCommandState(italicBtn, "italic");
+        setCommandState(underlineBtn, "underline");
+      }
+
+      function toggleMenu() {
+        if (menuPanel.style.display === "block") {
+          menuPanel.style.display = "none";
+          removeClass(menuBtn, "active");
+        } else {
+          menuPanel.style.display = "block";
+          addClass(menuBtn, "active");
+        }
+      }
+
+      function toggleTheme() {
+        prefs.theme = prefs.theme === "light" ? "dark" : "light";
+        applyPrefs();
+        storePrefs();
+        editor.focus();
       }
 
       function getPlainText() {
@@ -596,11 +619,11 @@
       }
 
       function cleanFileName(name) {
-        var value = name || "note";
+        var value = name || "n0tes";
         value = value.replace(/[\\\/:\*\?\"<>\|]+/g, "_");
         value = value.replace(/^\s+|\s+$/g, "");
         if (!value) {
-          value = "note";
+          value = "n0tes";
         }
         if (value.toLowerCase().indexOf(".html") === -1) {
           value += ".html";
@@ -609,10 +632,10 @@
       }
 
       function buildExportHtml(title) {
-        var bg = prefs.theme === "light" ? "#f1f1ed" : "#090b12";
+        var bg = prefs.theme === "light" ? "#f2f2ee" : "#0a0a0a";
         var fg = prefs.theme === "light" ? "#111111" : "#f4f4f4";
-        var quoteBorder = prefs.theme === "light" ? "#8f8f88" : "#5c6173";
-        var quoteColor = prefs.theme === "light" ? "#333333" : "#d9d9df";
+        var quoteBorder = prefs.theme === "light" ? "#96968d" : "#5c5c5c";
+        var quoteColor = prefs.theme === "light" ? "#333333" : "#d8d8d8";
         var fontCss = fontMap[prefs.font] || fontMap.serif;
         var parts = [];
 
@@ -625,11 +648,11 @@
         parts.push("<style type=\"text/css\">");
         parts.push("html,body{margin:0;padding:0;background:" + bg + ";color:" + fg + ";}");
         parts.push("body{font-family:" + fontCss + ";}");
-        parts.push("#note{max-width:760px;margin:0 auto;padding:22px 18px 40px 18px;font-size:" + prefs.size + "px;line-height:1.55;word-wrap:break-word;white-space:normal;}");
-        parts.push("#note p,#note div{margin:0 0 0.9em 0;}");
-        parts.push("#note h1{margin:0 0 0.7em 0;font-size:1.55em;line-height:1.15;font-weight:bold;}");
-        parts.push("#note h2{margin:0 0 0.8em 0;font-size:1.22em;line-height:1.2;font-weight:bold;}");
-        parts.push("#note blockquote{margin:0 0 0.9em 0;padding-left:12px;border-left:2px solid " + quoteBorder + ";color:" + quoteColor + ";}");
+        parts.push("#note{max-width:760px;margin:0 auto;padding:18px 16px 40px 16px;font-size:" + prefs.size + "px;line-height:1.52;word-wrap:break-word;white-space:normal;}");
+        parts.push("#note p,#note div{margin:0 0 0.85em 0;}");
+        parts.push("#note h1{margin:0 0 0.7em 0;font-size:1.5em;line-height:1.12;font-weight:bold;}");
+        parts.push("#note h2{margin:0 0 0.8em 0;font-size:1.22em;line-height:1.18;font-weight:bold;}");
+        parts.push("#note blockquote{margin:0 0 0.85em 0;padding-left:12px;border-left:2px solid " + quoteBorder + ";color:" + quoteColor + ";}");
         parts.push("</style>");
         parts.push("</head>");
         parts.push("<body>");
@@ -713,7 +736,7 @@
       }
 
       function saveNote() {
-        var name = window.prompt("File name:", "note");
+        var name = window.prompt("File name:", "n0tes");
         var fileName;
         var htmlText;
 
@@ -728,7 +751,7 @@
 
       function emailNote() {
         var to = window.prompt("Email to (optional):", "");
-        var subject = window.prompt("Email subject:", "Note");
+        var subject = window.prompt("Email subject:", "n0tes");
         var body;
 
         if (to === null || subject === null) {
@@ -743,128 +766,192 @@
           "&body=" + encodeURIComponent(body);
       }
 
-      function getAudioCtor() {
-        return window.AudioContext || window.webkitAudioContext || null;
+      function base64Encode(input) {
+        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        var str = input;
+        var output = "";
+        var i = 0;
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+
+        while (i < str.length) {
+          chr1 = str.charCodeAt(i++);
+          chr2 = str.charCodeAt(i++);
+          chr3 = str.charCodeAt(i++);
+
+          enc1 = chr1 >> 2;
+          enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+          enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+          enc4 = chr3 & 63;
+
+          if (isNaN(chr2)) {
+            enc3 = 64;
+            enc4 = 64;
+          } else if (isNaN(chr3)) {
+            enc4 = 64;
+          }
+
+          output = output +
+            chars.charAt(enc1) +
+            chars.charAt(enc2) +
+            (enc3 === 64 ? "=" : chars.charAt(enc3)) +
+            (enc4 === 64 ? "=" : chars.charAt(enc4));
+        }
+
+        return output;
       }
 
-      function initAudio() {
-        var Ctor = getAudioCtor();
+      function clampByte(n) {
+        if (n < 0) { return 0; }
+        if (n > 255) { return 255; }
+        return n;
+      }
 
-        if (!Ctor) {
+      function push16(arr, value) {
+        arr[arr.length] = value & 255;
+        arr[arr.length] = (value >> 8) & 255;
+      }
+
+      function push32(arr, value) {
+        arr[arr.length] = value & 255;
+        arr[arr.length] = (value >> 8) & 255;
+        arr[arr.length] = (value >> 16) & 255;
+        arr[arr.length] = (value >> 24) & 255;
+      }
+
+      function bytesToString(arr) {
+        var out = "";
+        var i;
+        for (i = 0; i < arr.length; i++) {
+          out += String.fromCharCode(arr[i]);
+        }
+        return out;
+      }
+
+      function buildClickWavDataUri() {
+        var sampleRate = 8000;
+        var sampleCount = 88;
+        var dataBytes = [];
+        var bytes = [];
+        var i, amp, val, sign, noise, seed;
+
+        seed = 17;
+
+        for (i = 0; i < sampleCount; i++) {
+          amp = (sampleCount - i) / sampleCount;
+          sign = (i % 2 === 0) ? 1 : -1;
+          seed = (seed * 1103515245 + 12345) & 2147483647;
+          noise = ((seed >> 16) & 31) - 15;
+          val = 128 + (sign * 70 * amp) + (noise * amp);
+          dataBytes[dataBytes.length] = clampByte(parseInt(val, 10));
+        }
+
+        bytes[bytes.length] = 82;  /* R */
+        bytes[bytes.length] = 73;  /* I */
+        bytes[bytes.length] = 70;  /* F */
+        bytes[bytes.length] = 70;  /* F */
+        push32(bytes, 36 + dataBytes.length);
+        bytes[bytes.length] = 87;  /* W */
+        bytes[bytes.length] = 65;  /* A */
+        bytes[bytes.length] = 86;  /* V */
+        bytes[bytes.length] = 69;  /* E */
+
+        bytes[bytes.length] = 102; /* f */
+        bytes[bytes.length] = 109; /* m */
+        bytes[bytes.length] = 116; /* t */
+        bytes[bytes.length] = 32;  /* space */
+        push32(bytes, 16);
+        push16(bytes, 1);
+        push16(bytes, 1);
+        push32(bytes, sampleRate);
+        push32(bytes, sampleRate * 1 * 8 / 8);
+        push16(bytes, 1 * 8 / 8);
+        push16(bytes, 8);
+
+        bytes[bytes.length] = 100; /* d */
+        bytes[bytes.length] = 97;  /* a */
+        bytes[bytes.length] = 116; /* t */
+        bytes[bytes.length] = 97;  /* a */
+        push32(bytes, dataBytes.length);
+
+        for (i = 0; i < dataBytes.length; i++) {
+          bytes[bytes.length] = dataBytes[i];
+        }
+
+        return "data:audio/wav;base64," + base64Encode(bytesToString(bytes));
+      }
+
+      function initSoundPool() {
+        var i, a;
+
+        if (soundPool.length > 0) {
+          return true;
+        }
+
+        if (!window.Audio) {
           return false;
         }
 
+        if (!soundSrc) {
+          soundSrc = buildClickWavDataUri();
+        }
+
         try {
-          if (!audioCtx) {
-            audioCtx = new Ctor();
+          for (i = 0; i < 10; i++) {
+            a = new Audio();
+            a.preload = "auto";
+            a.src = soundSrc;
+            a.volume = 0.25;
+            if (a.load) {
+              try { a.load(); } catch (e) {}
+            }
+            soundPool[soundPool.length] = a;
           }
-          if (audioCtx.resume) {
-            try {
-              audioCtx.resume();
-            } catch (e) {}
-          }
-          createClickBuffer();
           return true;
         } catch (e) {
+          soundPool = [];
           return false;
-        }
-      }
-
-      function createClickBuffer() {
-        var rate, length, data, i, decay, noise;
-
-        if (!audioCtx || clickBuffer) {
-          return;
-        }
-
-        try {
-          rate = audioCtx.sampleRate || 22050;
-          length = Math.floor(rate * 0.008);
-          if (length < 32) {
-            length = 32;
-          }
-
-          clickBuffer = audioCtx.createBuffer(1, length, rate);
-          data = clickBuffer.getChannelData(0);
-
-          for (i = 0; i < length; i++) {
-            decay = 1 - (i / length);
-            noise = (Math.random() * 2) - 1;
-            data[i] = noise * decay * 0.18;
-          }
-        } catch (e) {
-          clickBuffer = null;
         }
       }
 
       function playClick() {
-        var now = new Date().getTime();
-        var source, gain;
+        var a;
+        var result;
 
         if (prefs.sound !== "on") {
           return;
         }
 
-        if (now - lastSoundAt < 28) {
-          return;
+        if (!soundPool.length) {
+          if (!initSoundPool()) {
+            return;
+          }
         }
 
-        lastSoundAt = now;
-
-        if (!audioCtx && !initAudio()) {
-          return;
+        a = soundPool[soundIndex];
+        soundIndex++;
+        if (soundIndex >= soundPool.length) {
+          soundIndex = 0;
         }
 
-        if (audioCtx && audioCtx.resume) {
-          try {
-            audioCtx.resume();
-          } catch (e) {}
-        }
-
-        if (!clickBuffer) {
-          createClickBuffer();
-        }
-
-        if (!clickBuffer) {
+        if (!a) {
           return;
         }
 
         try {
-          source = audioCtx.createBufferSource();
-          source.buffer = clickBuffer;
-
-          if (audioCtx.createGain) {
-            gain = audioCtx.createGain();
-          } else if (audioCtx.createGainNode) {
-            gain = audioCtx.createGainNode();
+          if (a.pause) {
+            a.pause();
           }
+        } catch (e) {}
 
-          if (!gain) {
-            return;
+        try {
+          a.currentTime = 0;
+        } catch (e) {}
+
+        try {
+          result = a.play();
+          if (result && result.then) {
+            result.then(function () {}).catch(function () {});
           }
-
-          try {
-            gain.gain.value = 0.55;
-          } catch (e) {}
-
-          source.connect(gain);
-          gain.connect(audioCtx.destination);
-
-          if (source.start) {
-            source.start(0);
-          } else if (source.noteOn) {
-            source.noteOn(0);
-          }
-
-          setTimeout(function () {
-            try {
-              if (source.stop) {
-                source.stop(0);
-              } else if (source.noteOff) {
-                source.noteOff(0);
-              }
-            } catch (e) {}
-          }, 20);
         } catch (e) {}
       }
 
@@ -873,7 +960,7 @@
           prefs.sound = "off";
         } else {
           prefs.sound = "on";
-          initAudio();
+          initSoundPool();
           playClick();
         }
         applyPrefs();
@@ -899,19 +986,77 @@
         return false;
       }
 
-      function toggleTheme() {
-        prefs.theme = prefs.theme === "light" ? "dark" : "light";
-        applyPrefs();
-        storePrefs();
-        editor.focus();
+      function getFullscreenElement() {
+        return document.fullscreenElement ||
+               document.webkitFullscreenElement ||
+               document.mozFullScreenElement ||
+               document.msFullscreenElement ||
+               null;
       }
 
-      function stopEvent(evt) {
-        evt = evt || window.event;
-        if (evt.stopPropagation) {
-          evt.stopPropagation();
+      function requestFull(el) {
+        if (el.requestFullscreen) {
+          el.requestFullscreen();
+          return true;
         }
-        evt.cancelBubble = true;
+        if (el.webkitRequestFullscreen) {
+          el.webkitRequestFullscreen();
+          return true;
+        }
+        if (el.webkitRequestFullScreen) {
+          el.webkitRequestFullScreen();
+          return true;
+        }
+        if (el.mozRequestFullScreen) {
+          el.mozRequestFullScreen();
+          return true;
+        }
+        if (el.msRequestFullscreen) {
+          el.msRequestFullscreen();
+          return true;
+        }
+        return false;
+      }
+
+      function exitFull() {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+          return true;
+        }
+        if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+          return true;
+        }
+        if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+          return true;
+        }
+        if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+          return true;
+        }
+        if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+          return true;
+        }
+        return false;
+      }
+
+      function updateFullButton() {
+        if (getFullscreenElement()) {
+          addClass(fullBtn, "active");
+        } else {
+          removeClass(fullBtn, "active");
+        }
+      }
+
+      function toggleFullscreen() {
+        if (getFullscreenElement()) {
+          exitFull();
+        } else {
+          requestFull(document.documentElement);
+        }
+        setTimeout(updateFullButton, 120);
       }
 
       storageOK = testStorage();
@@ -939,6 +1084,11 @@
       bind(themeBtn, "click", function (evt) {
         stopEvent(evt);
         toggleTheme();
+      });
+
+      bind(fullBtn, "click", function (evt) {
+        stopEvent(evt);
+        toggleFullscreen();
       });
 
       bind(menuBtn, "click", function (evt) {
@@ -978,23 +1128,24 @@
       });
 
       bind(editor, "keydown", function (evt) {
-        lastKeyTime = new Date().getTime();
+        lastKeydownAt = new Date().getTime();
         if (isTypingKey(evt || window.event)) {
           playClick();
         }
       });
 
-      bind(editor, "keyup", function () {
+      bind(editor, "input", function () {
+        var now = new Date().getTime();
+        if (now - lastKeydownAt > 60 && now - lastSoftInputSoundAt > 30) {
+          playClick();
+          lastSoftInputSoundAt = now;
+        }
         saveSelectionRange();
         updateFormatButtons();
         storeContent();
       });
 
-      bind(editor, "input", function () {
-        var now = new Date().getTime();
-        if (now - lastKeyTime > 80) {
-          playClick();
-        }
+      bind(editor, "keyup", function () {
         saveSelectionRange();
         updateFormatButtons();
         storeContent();
@@ -1031,14 +1182,23 @@
         evt = evt || window.event;
         var target = evt.target || evt.srcElement;
 
-        if (target !== menuBtn && target !== menuPanel &&
-            target !== fontSelect && target !== sizeSelect &&
-            target !== styleSelect && target !== soundBtn &&
-            target !== saveBtn && target !== emailBtn) {
+        if (target !== menuBtn &&
+            target !== menuPanel &&
+            target !== fontSelect &&
+            target !== sizeSelect &&
+            target !== styleSelect &&
+            target !== soundBtn &&
+            target !== saveBtn &&
+            target !== emailBtn) {
           menuPanel.style.display = "none";
           removeClass(menuBtn, "active");
         }
       });
+
+      bind(document, "fullscreenchange", updateFullButton);
+      bind(document, "webkitfullscreenchange", updateFullButton);
+      bind(document, "mozfullscreenchange", updateFullButton);
+      bind(document, "MSFullscreenChange", updateFullButton);
 
       bind(window, "beforeunload", function () {
         storeContent();
