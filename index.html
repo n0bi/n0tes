@@ -34,18 +34,6 @@
       background-color: #0a0a0a;
     }
 
-    body.bg-paper {
-      background: #f2f0e8;
-      background-color: #f2f0e8;
-    }
-
-    body.bg-dawn {
-      background: #d7d0c9;
-      background: -webkit-linear-gradient(top, #e7ddd4 0%, #d3c7bf 50%, #b8b0a9 100%);
-      background: linear-gradient(to bottom, #e7ddd4 0%, #d3c7bf 50%, #b8b0a9 100%);
-      background-color: #d3c7bf;
-    }
-
     body.bg-dusk {
       background: #1b2130;
       background: -webkit-linear-gradient(top, #2d3550 0%, #1d2437 55%, #10141d 100%);
@@ -119,7 +107,7 @@
       width: auto;
       max-width: none;
       margin: 0;
-      padding: 16px 14px 44px 56px;
+      padding: 16px 56px 42px 14px;
       box-sizing: border-box;
       outline: none;
       word-wrap: break-word;
@@ -176,16 +164,9 @@
     #toolbar {
       position: absolute;
       top: 8px;
-      left: 8px;
+      right: 8px;
       z-index: 40;
       width: 32px;
-      opacity: 1;
-      filter: alpha(opacity=100);
-    }
-
-    #toolbar.chrome-hidden {
-      opacity: 0.18;
-      filter: alpha(opacity=18);
     }
 
     .toolbtn {
@@ -256,11 +237,6 @@
       font-size: 22px;
       font-weight: normal;
       line-height: 20px;
-    }
-
-    #focusBtn {
-      font-size: 18px;
-      line-height: 27px;
     }
 
     #menuBtn {
@@ -336,15 +312,13 @@
       display: none;
       position: absolute;
       top: 8px;
-      left: 42px;
+      right: 42px;
       z-index: 39;
-      width: 152px;
+      width: 154px;
       padding: 7px;
       border-radius: 12px;
       box-sizing: border-box;
       font-family: Arial, Helvetica, sans-serif;
-      opacity: 1;
-      filter: alpha(opacity=100);
     }
 
     body.theme-dark #menuPanel {
@@ -401,21 +375,10 @@
       border: 1px solid #111111;
     }
 
-    #edgeWake {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 56px;
-      height: 56px;
-      z-index: 20;
-      display: none;
-      background: transparent;
-    }
-
     @media screen and (max-width: 700px) {
       #toolbar {
         top: 8px;
-        left: 8px;
+        right: 8px;
         width: 30px;
       }
 
@@ -436,11 +399,6 @@
         line-height: 18px;
       }
 
-      #focusBtn {
-        font-size: 17px;
-        line-height: 25px;
-      }
-
       #menuBtn {
         font-size: 13px;
         line-height: 26px;
@@ -448,13 +406,13 @@
 
       #menuPanel {
         top: 8px;
-        left: 40px;
-        width: 140px;
+        right: 40px;
+        width: 142px;
         padding: 7px;
       }
 
       #editor {
-        padding: 14px 12px 38px 50px;
+        padding: 14px 50px 40px 12px;
         font-size: 15px;
         line-height: 1.46;
       }
@@ -500,8 +458,6 @@
 </head>
 <body class="theme-dark bg-plain">
   <div id="app">
-    <div id="edgeWake"></div>
-
     <div id="writerWrap">
       <div id="editor" contenteditable="true"></div>
     </div>
@@ -522,7 +478,6 @@
         <span class="br"></span>
       </button>
 
-      <button type="button" class="toolbtn" id="focusBtn" title="Focus">·</button>
       <button type="button" class="toolbtn" id="menuBtn" title="More">+</button>
     </div>
 
@@ -564,8 +519,6 @@
         <label class="panelLabel" for="environmentSelect">Environment</label>
         <select class="panelSelect" id="environmentSelect">
           <option value="plain">Plain</option>
-          <option value="paper">Paper</option>
-          <option value="dawn">Dawn</option>
           <option value="dusk">Dusk</option>
           <option value="forest">Forest</option>
           <option value="sea">Sea</option>
@@ -579,7 +532,17 @@
           <option value="hum">Low hum</option>
           <option value="rain">Soft rain</option>
           <option value="shore">Shore</option>
-          <option value="chime">Glass tones</option>
+        </select>
+      </div>
+
+      <div class="panelRow">
+        <label class="panelLabel" for="whiteNoiseSelect">White noise</label>
+        <select class="panelSelect" id="whiteNoiseSelect">
+          <option value="0">0%</option>
+          <option value="0.25">25%</option>
+          <option value="0.5">50%</option>
+          <option value="0.75">75%</option>
+          <option value="1">100%</option>
         </select>
       </div>
 
@@ -595,27 +558,7 @@
       </div>
 
       <div class="panelRow">
-        <label class="panelLabel" for="typewriterSelect">Typewriter</label>
-        <select class="panelSelect" id="typewriterSelect">
-          <option value="off">Off</option>
-          <option value="on">On</option>
-        </select>
-      </div>
-
-      <div class="panelRow">
-        <label class="panelLabel" for="focusSelect">Focus mode</label>
-        <select class="panelSelect" id="focusSelect">
-          <option value="off">Off</option>
-          <option value="on">On</option>
-        </select>
-      </div>
-
-      <div class="panelRow">
         <button type="button" class="panelBtn" id="saveHtmlBtn">Save HTML</button>
-      </div>
-
-      <div class="panelRow">
-        <button type="button" class="panelBtn" id="saveTxtBtn">Save TXT</button>
       </div>
 
       <div class="panelRow">
@@ -627,16 +570,11 @@
   <script type="text/javascript">
     (function () {
       var editor = document.getElementById("editor");
-      var writerWrap = document.getElementById("writerWrap");
-      var toolbar = document.getElementById("toolbar");
-      var edgeWake = document.getElementById("edgeWake");
-
       var boldBtn = document.getElementById("boldBtn");
       var italicBtn = document.getElementById("italicBtn");
       var underlineBtn = document.getElementById("underlineBtn");
       var themeBtn = document.getElementById("themeBtn");
       var fullBtn = document.getElementById("fullBtn");
-      var focusBtn = document.getElementById("focusBtn");
       var menuBtn = document.getElementById("menuBtn");
       var menuPanel = document.getElementById("menuPanel");
 
@@ -645,20 +583,17 @@
       var styleSelect = document.getElementById("styleSelect");
       var environmentSelect = document.getElementById("environmentSelect");
       var ambientSelect = document.getElementById("ambientSelect");
+      var whiteNoiseSelect = document.getElementById("whiteNoiseSelect");
       var volumeSelect = document.getElementById("volumeSelect");
-      var typewriterSelect = document.getElementById("typewriterSelect");
-      var focusSelect = document.getElementById("focusSelect");
       var saveHtmlBtn = document.getElementById("saveHtmlBtn");
-      var saveTxtBtn = document.getElementById("saveTxtBtn");
       var emailBtn = document.getElementById("emailBtn");
 
-      var contentKey = "n0tes_content_v8";
-      var prefsKey = "n0tes_prefs_v8";
+      var contentKey = "n0tes_content_v9";
+      var prefsKey = "n0tes_prefs_v9";
       var storageOK = false;
       var savedRange = null;
       var isDirty = false;
       var autosaveTimer = null;
-      var hideChromeTimer = null;
       var ambientPlayer = null;
       var ambientCache = {};
       var seed = 17;
@@ -669,9 +604,8 @@
         theme: "dark",
         environment: "plain",
         ambient: "silence",
-        volume: "0.5",
-        typewriter: "off",
-        focus: "off"
+        whiteNoise: "0",
+        volume: "0.5"
       };
 
       var fontMap = {
@@ -799,9 +733,8 @@
             prefs.theme + "|" +
             prefs.environment + "|" +
             prefs.ambient + "|" +
-            prefs.volume + "|" +
-            prefs.typewriter + "|" +
-            prefs.focus
+            prefs.whiteNoise + "|" +
+            prefs.volume
           );
         } catch (e) {}
       }
@@ -822,9 +755,8 @@
           if (parts[2]) { prefs.theme = parts[2]; }
           if (parts[3]) { prefs.environment = parts[3]; }
           if (parts[4]) { prefs.ambient = parts[4]; }
-          if (parts[5]) { prefs.volume = parts[5]; }
-          if (parts[6]) { prefs.typewriter = parts[6]; }
-          if (parts[7]) { prefs.focus = parts[7]; }
+          if (parts[5]) { prefs.whiteNoise = parts[5]; }
+          if (parts[6]) { prefs.volume = parts[6]; }
         } catch (e) {}
       }
 
@@ -842,17 +774,8 @@
         sizeSelect.value = prefs.size;
         environmentSelect.value = prefs.environment;
         ambientSelect.value = prefs.ambient;
+        whiteNoiseSelect.value = prefs.whiteNoise;
         volumeSelect.value = prefs.volume;
-        typewriterSelect.value = prefs.typewriter;
-        focusSelect.value = prefs.focus;
-
-        if (prefs.focus === "on") {
-          addClass(focusBtn, "active");
-          scheduleChromeHide();
-        } else {
-          removeClass(focusBtn, "active");
-          showChrome();
-        }
 
         updateFullButton();
       }
@@ -918,7 +841,6 @@
         } else {
           menuPanel.style.display = "block";
           addClass(menuBtn, "active");
-          showChrome();
         }
       }
 
@@ -927,43 +849,6 @@
         applyPrefs();
         storePrefs();
         editor.focus();
-      }
-
-      function toggleFocus() {
-        prefs.focus = prefs.focus === "on" ? "off" : "on";
-        applyPrefs();
-        storePrefs();
-        editor.focus();
-      }
-
-      function showChrome() {
-        removeClass(toolbar, "chrome-hidden");
-        edgeWake.style.display = "none";
-        if (hideChromeTimer) {
-          clearTimeout(hideChromeTimer);
-          hideChromeTimer = null;
-        }
-        if (prefs.focus === "on") {
-          hideChromeTimer = setTimeout(function () {
-            hideChrome();
-          }, 1700);
-        }
-      }
-
-      function hideChrome() {
-        if (prefs.focus !== "on") {
-          return;
-        }
-        addClass(toolbar, "chrome-hidden");
-        if (menuPanel.style.display === "block") {
-          menuPanel.style.display = "none";
-          removeClass(menuBtn, "active");
-        }
-        edgeWake.style.display = "block";
-      }
-
-      function scheduleChromeHide() {
-        showChrome();
       }
 
       function getPlainText() {
@@ -1006,17 +891,13 @@
         var fontCss = fontMap[prefs.font] || fontMap.serif;
         var parts = [];
 
-        if (bgClass === "paper") {
-          bgCss = "#f2f0e8";
-        } else if (bgClass === "dawn") {
-          bgCss = "#d3c7bf";
-        } else if (bgClass === "dusk") {
+        if (bgClass === "dusk") {
           bgCss = prefs.theme === "light" ? "#d9dfe7" : "#1d2437";
         } else if (bgClass === "forest") {
           bgCss = prefs.theme === "light" ? "#dce6d8" : "#313b33";
         } else if (bgClass === "sea") {
           bgCss = prefs.theme === "light" ? "#dde8e8" : "#274048";
-        } else if (bgClass === "plain") {
+        } else {
           bgCss = prefs.theme === "light" ? "#f2f2ee" : "#0a0a0a";
         }
 
@@ -1064,7 +945,7 @@
       function downloadTextFile(fileName, text, mimeType) {
         var blob, url, a, fallbackUrl;
 
-        mimeType = mimeType || "text/plain";
+        mimeType = mimeType || "text/html";
 
         if (window.Blob && window.URL && URL.createObjectURL) {
           try {
@@ -1128,20 +1009,6 @@
         fileName = cleanFileName(name, ".html");
         htmlText = buildExportHtml(fileName.replace(/\.html$/i, ""));
         downloadTextFile(fileName, htmlText, "text/html");
-      }
-
-      function saveTxt() {
-        var name = window.prompt("File name:", "n0tes");
-        var fileName;
-        var text;
-
-        if (name === null) {
-          return;
-        }
-
-        fileName = cleanFileName(name, ".txt");
-        text = getPlainText();
-        downloadTextFile(fileName, text, "text/plain");
       }
 
       function emailNote() {
@@ -1312,7 +1179,7 @@
         return output;
       }
 
-      function buildAmbientDataUri(kind) {
+      function buildAmbientDataUri(kind, whiteNoiseLevel) {
         var sampleRate = 8000;
         var seconds = 4;
         var sampleCount = sampleRate * seconds;
@@ -1321,41 +1188,35 @@
         var i, t, sample, v;
         var noise = 0;
         var noise2 = 0;
+        var wn = parseFloat(whiteNoiseLevel, 10);
         var burst = 0;
-        var burst2 = 0;
-        var cycle;
 
         for (i = 0; i < sampleCount; i++) {
           t = i / sampleRate;
           sample = 0;
 
+          noise = (noise * 0.90) + (((nextRand() * 2) - 1) * 0.08);
+          noise2 = ((nextRand() * 2) - 1) * 0.06 * wn;
+
           if (kind === "hum") {
             sample =
-              (Math.sin(2 * Math.PI * 110 * t) * 0.20) +
-              (Math.sin(2 * Math.PI * 165 * t) * 0.10) +
-              (Math.sin(2 * Math.PI * 0.22 * t) * 0.04);
+              (Math.sin(2 * Math.PI * 110 * t) * 0.18) +
+              (Math.sin(2 * Math.PI * 165 * t) * 0.08) +
+              (Math.sin(2 * Math.PI * 0.22 * t) * 0.03) +
+              (noise2 * 0.70);
           } else if (kind === "rain") {
-            noise = (noise * 0.92) + (((nextRand() * 2) - 1) * 0.08);
-            noise2 = (noise2 * 0.70) + (((nextRand() * 2) - 1) * 0.03);
-            sample = noise + noise2 + (Math.sin(2 * Math.PI * 0.12 * t) * 0.015);
+            sample =
+              (noise * 0.90) +
+              (noise2 * 0.90) +
+              (Math.sin(2 * Math.PI * 0.12 * t) * 0.01);
           } else if (kind === "shore") {
-            noise = (noise * 0.95) + (((nextRand() * 2) - 1) * 0.035);
+            burst = Math.sin(2 * Math.PI * 0.17 * t) * 0.07;
             sample =
-              (Math.sin(2 * Math.PI * 55 * t) * 0.06) +
-              (Math.sin(2 * Math.PI * 82 * t) * 0.03) +
-              (Math.sin(2 * Math.PI * 0.18 * t) * 0.08) +
-              noise;
-          } else if (kind === "chime") {
-            cycle = t % 1.35;
-            burst = 0;
-            burst2 = 0;
-            if (cycle < 0.28) {
-              burst = Math.sin(2 * Math.PI * 660 * t) * (1 - (cycle / 0.28)) * 0.22;
-              burst2 = Math.sin(2 * Math.PI * 880 * t) * (1 - (cycle / 0.28)) * 0.12;
-            }
-            sample =
-              (Math.sin(2 * Math.PI * 196 * t) * 0.03) +
-              burst + burst2;
+              (Math.sin(2 * Math.PI * 55 * t) * 0.04) +
+              (Math.sin(2 * Math.PI * 82 * t) * 0.02) +
+              burst +
+              (noise * 0.35) +
+              (noise2 * 0.85);
           }
 
           v = 128 + (sample * 110);
@@ -1397,12 +1258,13 @@
         return "data:audio/wav;base64," + base64Encode(bytesToString(bytes));
       }
 
-      function ensureAmbientSource(kind) {
-        if (ambientCache[kind]) {
-          return ambientCache[kind];
+      function ensureAmbientSource(kind, whiteNoiseLevel) {
+        var key = kind + "_" + whiteNoiseLevel;
+        if (ambientCache[key]) {
+          return ambientCache[key];
         }
-        ambientCache[kind] = buildAmbientDataUri(kind);
-        return ambientCache[kind];
+        ambientCache[key] = buildAmbientDataUri(kind, whiteNoiseLevel);
+        return ambientCache[key];
       }
 
       function stopAmbient() {
@@ -1451,7 +1313,7 @@
         } catch (e) {}
 
         try {
-          ambientPlayer.src = ensureAmbientSource(kind);
+          ambientPlayer.src = ensureAmbientSource(kind, prefs.whiteNoise);
         } catch (e) {}
 
         try {
@@ -1474,6 +1336,13 @@
         });
       }
 
+      function refreshAmbient() {
+        if (prefs.ambient === "silence") {
+          return;
+        }
+        setAmbient(prefs.ambient);
+      }
+
       function updateAmbientVolume() {
         if (!ambientPlayer) {
           return;
@@ -1481,82 +1350,6 @@
         try {
           ambientPlayer.volume = parseFloat(prefs.volume, 10);
         } catch (e) {}
-      }
-
-      function getCaretRect() {
-        var sel, range, rects, rect, marker;
-
-        try {
-          if (window.getSelection) {
-            sel = window.getSelection();
-            if (!sel || !sel.rangeCount) {
-              return null;
-            }
-
-            range = sel.getRangeAt(0).cloneRange();
-            range.collapse(true);
-
-            if (range.getClientRects) {
-              rects = range.getClientRects();
-              if (rects && rects.length) {
-                return rects[0];
-              }
-            }
-
-            marker = document.createElement("span");
-            marker.appendChild(document.createTextNode("\u200b"));
-            range.insertNode(marker);
-
-            rect = marker.getBoundingClientRect ? marker.getBoundingClientRect() : null;
-
-            range.setStartAfter(marker);
-            range.collapse(true);
-
-            if (marker.parentNode) {
-              marker.parentNode.removeChild(marker);
-            }
-
-            sel.removeAllRanges();
-            sel.addRange(range);
-
-            return rect;
-          } else if (document.selection) {
-            range = document.selection.createRange();
-            return {
-              top: range.boundingTop,
-              left: range.boundingLeft
-            };
-          }
-        } catch (e) {}
-
-        return null;
-      }
-
-      function keepCaretNearMiddle() {
-        var caretRect, wrapRect, currentPos, targetPos, delta;
-
-        if (prefs.typewriter !== "on") {
-          return;
-        }
-
-        if (!writerWrap || !writerWrap.getBoundingClientRect) {
-          return;
-        }
-
-        caretRect = getCaretRect();
-        wrapRect = writerWrap.getBoundingClientRect ? writerWrap.getBoundingClientRect() : null;
-
-        if (!caretRect || !wrapRect) {
-          return;
-        }
-
-        currentPos = caretRect.top - wrapRect.top;
-        targetPos = parseInt(writerWrap.clientHeight / 2, 10);
-        delta = currentPos - targetPos;
-
-        if (delta > 18 || delta < -18) {
-          writerWrap.scrollTop = writerWrap.scrollTop + delta;
-        }
       }
 
       storageOK = testStorage();
@@ -1570,36 +1363,26 @@
       bind(boldBtn, "click", function (evt) {
         stopEvent(evt);
         runCommand("bold");
-        scheduleChromeHide();
       });
 
       bind(italicBtn, "click", function (evt) {
         stopEvent(evt);
         runCommand("italic");
-        scheduleChromeHide();
       });
 
       bind(underlineBtn, "click", function (evt) {
         stopEvent(evt);
         runCommand("underline");
-        scheduleChromeHide();
       });
 
       bind(themeBtn, "click", function (evt) {
         stopEvent(evt);
         toggleTheme();
-        scheduleChromeHide();
       });
 
       bind(fullBtn, "click", function (evt) {
         stopEvent(evt);
         toggleFullscreen();
-        scheduleChromeHide();
-      });
-
-      bind(focusBtn, "click", function (evt) {
-        stopEvent(evt);
-        toggleFocus();
       });
 
       bind(menuBtn, "click", function (evt) {
@@ -1612,7 +1395,6 @@
         applyPrefs();
         storePrefs();
         editor.focus();
-        scheduleChromeHide();
       });
 
       bind(sizeSelect, "change", function () {
@@ -1620,13 +1402,11 @@
         applyPrefs();
         storePrefs();
         editor.focus();
-        scheduleChromeHide();
       });
 
       bind(styleSelect, "change", function () {
         applyBlock(this.value);
         editor.focus();
-        scheduleChromeHide();
       });
 
       bind(environmentSelect, "change", function () {
@@ -1634,13 +1414,18 @@
         applyPrefs();
         storePrefs();
         editor.focus();
-        scheduleChromeHide();
       });
 
       bind(ambientSelect, "change", function () {
         setAmbient(this.value);
         editor.focus();
-        scheduleChromeHide();
+      });
+
+      bind(whiteNoiseSelect, "change", function () {
+        prefs.whiteNoise = this.value;
+        storePrefs();
+        refreshAmbient();
+        editor.focus();
       });
 
       bind(volumeSelect, "change", function () {
@@ -1648,70 +1433,41 @@
         updateAmbientVolume();
         storePrefs();
         editor.focus();
-        scheduleChromeHide();
-      });
-
-      bind(typewriterSelect, "change", function () {
-        prefs.typewriter = this.value;
-        storePrefs();
-        editor.focus();
-        scheduleChromeHide();
-      });
-
-      bind(focusSelect, "change", function () {
-        prefs.focus = this.value;
-        applyPrefs();
-        storePrefs();
-        editor.focus();
       });
 
       bind(saveHtmlBtn, "click", function () {
         saveHtml();
-        scheduleChromeHide();
-      });
-
-      bind(saveTxtBtn, "click", function () {
-        saveTxt();
-        scheduleChromeHide();
       });
 
       bind(emailBtn, "click", function () {
         emailNote();
-        scheduleChromeHide();
       });
 
       bind(editor, "input", function () {
         saveSelectionRange();
         updateFormatButtons();
         markDirty();
-        keepCaretNearMiddle();
-        scheduleChromeHide();
       });
 
       bind(editor, "keyup", function () {
         saveSelectionRange();
         updateFormatButtons();
         markDirty();
-        keepCaretNearMiddle();
-        scheduleChromeHide();
       });
 
       bind(editor, "mouseup", function () {
         saveSelectionRange();
         updateFormatButtons();
-        scheduleChromeHide();
       });
 
       bind(editor, "touchend", function () {
         saveSelectionRange();
         updateFormatButtons();
-        scheduleChromeHide();
       });
 
       bind(editor, "focus", function () {
         saveSelectionRange();
         updateFormatButtons();
-        scheduleChromeHide();
       });
 
       bind(editor, "blur", function () {
@@ -1723,29 +1479,7 @@
           saveSelectionRange();
           updateFormatButtons();
           markDirty();
-          keepCaretNearMiddle();
-          scheduleChromeHide();
         }, 0);
-      });
-
-      bind(document, "mousemove", function () {
-        if (prefs.focus === "on") {
-          showChrome();
-        }
-      });
-
-      bind(document, "touchstart", function () {
-        if (prefs.focus === "on") {
-          showChrome();
-        }
-      });
-
-      bind(edgeWake, "click", function () {
-        showChrome();
-      });
-
-      bind(edgeWake, "touchstart", function () {
-        showChrome();
       });
 
       bind(document, "click", function (evt) {
@@ -1759,11 +1493,9 @@
             target !== styleSelect &&
             target !== environmentSelect &&
             target !== ambientSelect &&
+            target !== whiteNoiseSelect &&
             target !== volumeSelect &&
-            target !== typewriterSelect &&
-            target !== focusSelect &&
             target !== saveHtmlBtn &&
-            target !== saveTxtBtn &&
             target !== emailBtn) {
           if (menuPanel.style.display === "block") {
             menuPanel.style.display = "none";
@@ -1784,13 +1516,8 @@
         storePrefs();
       });
 
-      if (prefs.ambient !== "silence") {
-        updateAmbientVolume();
-      }
-
       editor.focus();
       saveSelectionRange();
-      scheduleChromeHide();
     })();
   </script>
 </body>
